@@ -2,12 +2,13 @@ import ctypes
 import os
 import shutil
 import zipfile
+import requests
 
 def set_terminal_title(title):
     ctypes.windll.kernel32.SetConsoleTitleW(title)
 
 if __name__ == "__main__":
-    set_terminal_title("Split It! version 0.7")
+    set_terminal_title("Split It! version 0.8")
 
 def start():
 
@@ -84,8 +85,6 @@ def start():
     print("|:                                                                                                                                                                            :|")
     print("|:____________________________________________________________________________________________________________________________________________________________________________:|")
     print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
-    print("")
-    print(" Tip: you can type cls or clear to clear the screen")
     print("")
     print("BEFORE YOU START THIS MAKE SURE THAT YOU HAVE DOUBLE THE EMPTY SPACE IN YOUR DRIVE AS YOUR BLEND AND CACHE FILE COMBINED!")
     print("THAT MEANS IF YOUR BLEND FILE IS 100 mb AND YOUR SIMULATION CACHE FOLDER IS 900 mb, MAKE SURE THAT YOU HAVE ATLEAST 2 gb OF EMPTY SPACE IN YOUR DRIVE! ")
@@ -231,420 +230,602 @@ please_enter_your_simulation_folder_name()
 
 # take the fucking folder names
 while True:
-    folder_name = input("Enter folder name (CASE SENSITIVE): ")
 
-    # Get the list of folders in the current directory
-    folders = [folder for folder in os.listdir('.') if os.path.isdir(folder)]
+    print("You can your 'ver' or 'version' to check for the latest build.")
+    print("You can type cls or clear to clear the screen")
+    print("Type s to start.")
+    
+    starting_choice = input("What do you want to do? ")
 
-    if folder_name in folders:
 
-    # if the fucking job is done this does the splits
-        
+    if starting_choice == 's':
+
         while True:
-            file_count = input("Enter the number of files to copy into each folder (numerical values only): ")
 
-            if file_count.isdigit():
-                file_count = int(file_count)
+            folder_name = input("Enter folder name (CASE SENSITIVE): ")
 
-                #config files splitter####################################################################################################################################################################################################################################################
+            # Get the list of folders in the current directory
+            folders = [folder for folder in os.listdir('.') if os.path.isdir(folder)]
 
-                source_folder = os.path.join(folder_name, "config")
-                destination_base_folder = "Destination"
+            if folder_name in folders:
 
-                print("Please wait while I split the Config files...")
+            # if the fucking job is done this does the splits
+                
+                while True:
+                    file_count = input("Enter the number of files to copy into each folder (numerical values only): ")
 
-                count = 0
-                folder_count = 1
+                    if file_count.isdigit():
+                        file_count = int(file_count)
 
-                os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "config"), exist_ok=True)
+                        #config files splitter####################################################################################################################################################################################################################################################
 
-                for filename in os.listdir(source_folder):
-                    source_file = os.path.join(source_folder, filename)
+                        source_folder = os.path.join(folder_name, "config")
+                        destination_base_folder = "Destination"
 
-                    # Copy files to the current destination folder
-                    shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "config"))
+                        print("Please wait while I split the Config files...")
 
-                    count += 1
-
-                    # If specified number of files are copied, reset the file counter and move to the next destination folder
-                    if count == file_count:
                         count = 0
-                        folder_count += 1
+                        folder_count = 1
+
                         os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "config"), exist_ok=True)
 
-                print("Config files copy pasted successfully.")
+                        for filename in os.listdir(source_folder):
+                            source_file = os.path.join(source_folder, filename)
 
-                #data files splitter####################################################################################################################################################################################################################################################
+                            # Copy files to the current destination folder
+                            shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "config"))
 
-                source_folder = os.path.join(folder_name, "data")
-                destination_base_folder = "Destination"
+                            count += 1
 
-                print("Please wait while I split the Data files...>.<")
+                            # If specified number of files are copied, reset the file counter and move to the next destination folder
+                            if count == file_count:
+                                count = 0
+                                folder_count += 1
+                                os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "config"), exist_ok=True)
 
-                count = 0
-                folder_count = 1
+                        print("Config files copy pasted successfully.")
 
-                os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "data"), exist_ok=True)
+                        #data files splitter####################################################################################################################################################################################################################################################
 
-                for filename in os.listdir(source_folder):
-                    source_file = os.path.join(source_folder, filename)
+                        source_folder = os.path.join(folder_name, "data")
+                        destination_base_folder = "Destination"
 
-                    # Copy files to the current destination folder
-                    shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "data"))
+                        print("Please wait while I split the Data files...>.<")
 
-                    count += 1
-
-                    # If specified number of files are copied, reset the file counter and move to the next destination folder
-                    if count == file_count:
                         count = 0
-                        folder_count += 1
+                        folder_count = 1
+
                         os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "data"), exist_ok=True)
 
-                print("Data files copy pasted successfully.")
+                        for filename in os.listdir(source_folder):
+                            source_file = os.path.join(source_folder, filename)
 
-                #mesh files splitter####################################################################################################################################################################################################################################################
+                            # Copy files to the current destination folder
+                            shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "data"))
 
-                source_folder = os.path.join(folder_name, "mesh")
-                destination_base_folder = "Destination"
+                            count += 1
 
-                print("Please wait while I split the Mesh files...>.<")
+                            # If specified number of files are copied, reset the file counter and move to the next destination folder
+                            if count == file_count:
+                                count = 0
+                                folder_count += 1
+                                os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "data"), exist_ok=True)
 
-                count = 0
-                folder_count = 1
+                        print("Data files copy pasted successfully.")
 
-                os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "mesh"), exist_ok=True)
+                        #mesh files splitter####################################################################################################################################################################################################################################################
 
-                for filename in os.listdir(source_folder):
-                    source_file = os.path.join(source_folder, filename)
+                        source_folder = os.path.join(folder_name, "mesh")
+                        destination_base_folder = "Destination"
 
-                    # Copy files to the current destination folder
-                    shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "mesh"))
+                        print("Please wait while I split the Mesh files...>.<")
 
-                    count += 1
-
-                    # If specified number of files are copied, reset the file counter and move to the next destination folder
-                    if count == file_count:
                         count = 0
-                        folder_count += 1
+                        folder_count = 1
+
                         os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "mesh"), exist_ok=True)
 
-                print("Mesh files copy pasted successfully...>.<")
+                        for filename in os.listdir(source_folder):
+                            source_file = os.path.join(source_folder, filename)
 
-                #guiding config####################################################################################################################################################################################################################################################
+                            # Copy files to the current destination folder
+                            shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "mesh"))
 
-                while True:
-                    guiding_folder = input("Do you have a guiding folder? Enter 'y' for yes, 'n' for no: ")
-                    
-                    if guiding_folder == "y":
-                        
-                        guiding_split = input("Do you want to split it? If it has files then you should. Enter 'y' for yes, 'n' for no: ")
-                        
-                        if guiding_split == "y":
-                        
-                            # Guiding files splitter
+                            count += 1
 
-                            source_folder = os.path.join(folder_name, "guiding")
-                            destination_base_folder = "Destination"
+                            # If specified number of files are copied, reset the file counter and move to the next destination folder
+                            if count == file_count:
+                                count = 0
+                                folder_count += 1
+                                os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "mesh"), exist_ok=True)
 
-                            print("Please wait while I split the Guiding files...>.<")
+                        print("Mesh files copy pasted successfully...>.<")
 
-                            count = 0
-                            folder_count = 1
+                        #guiding config####################################################################################################################################################################################################################################################
 
-                            os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "guiding"), exist_ok=True)
+                        while True:
+                            guiding_folder = input("Do you have a guiding folder? Enter 'y' for yes, 'n' for no: ")
+                            
+                            if guiding_folder == "y":
+                                
+                                guiding_split = input("Do you want to split it? If it has files then you should. Enter 'y' for yes, 'n' for no: ")
+                                
+                                if guiding_split == "y":
+                                
+                                    # Guiding files splitter
 
-                            for filename in os.listdir(source_folder):
-                                source_file = os.path.join(source_folder, filename)
+                                    source_folder = os.path.join(folder_name, "guiding")
+                                    destination_base_folder = "Destination"
 
-                                # Copy files to the current destination folder
-                                shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "guiding"))
+                                    print("Please wait while I split the Guiding files...>.<")
 
-                                count += 1
-
-                                # If specified number of files are copied, reset the file counter and move to the next destination folder
-                                if count == file_count:
                                     count = 0
-                                    folder_count += 1
+                                    folder_count = 1
+
                                     os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "guiding"), exist_ok=True)
 
-                            print("Guiding files copy pasted successfully...>.<")
+                                    for filename in os.listdir(source_folder):
+                                        source_file = os.path.join(source_folder, filename)
 
-                            break
-                        
-                        elif guiding_split == "n":
-                            # Guiding folders creator
-                        
-                            destination_root = "Destination"
+                                        # Copy files to the current destination folder
+                                        shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "guiding"))
 
-                            print("Please wait while i copy the guiding folders... >.<")
+                                        count += 1
 
-                            for subfolder in os.listdir(destination_root):
-                                destination_folder = os.path.join(destination_root, subfolder, folder_name)
-                                source_folder = os.path.join(folder_name, "guiding")
+                                        # If specified number of files are copied, reset the file counter and move to the next destination folder
+                                        if count == file_count:
+                                            count = 0
+                                            folder_count += 1
+                                            os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "guiding"), exist_ok=True)
+
+                                    print("Guiding files copy pasted successfully...>.<")
+
+                                    break
                                 
-                                # Check if the source guiding folder exists
-                                if os.path.exists(source_folder):
-                                    # Create destination folder if it doesn't exist
-                                    os.makedirs(destination_folder, exist_ok=True)
-                                    # Copy the entire guiding folder and its contents
-                                    shutil.copytree(source_folder, os.path.join(destination_folder, "guiding"))
+                                elif guiding_split == "n":
+                                    # Guiding folders creator
+                                
+                                    destination_root = "Destination"
 
-                            print("Guiding folders copy pasted successfully.")
+                                    print("Please wait while i copy the guiding folders... >.<")
 
-                            break
+                                    for subfolder in os.listdir(destination_root):
+                                        destination_folder = os.path.join(destination_root, subfolder, folder_name)
+                                        source_folder = os.path.join(folder_name, "guiding")
+                                        
+                                        # Check if the source guiding folder exists
+                                        if os.path.exists(source_folder):
+                                            # Create destination folder if it doesn't exist
+                                            os.makedirs(destination_folder, exist_ok=True)
+                                            # Copy the entire guiding folder and its contents
+                                            shutil.copytree(source_folder, os.path.join(destination_folder, "guiding"))
 
-                        elif guiding_split.lower() in ["cls", "clear"]:
-                            os.system('cls' if os.name == 'nt' else 'clear')
-                            continue
+                                    print("Guiding folders copy pasted successfully.")
 
-                        #guiding folder split yn error
-                        else:
-                            print("Error. Please use either 'y' or 'n'")
-                            continue
-                    
-                    #no guiding folders
-                    elif guiding_folder == "n":
-                        break
+                                    break
 
-                    elif guiding_folder.lower() in ["cls", "clear"]:
-                        os.system('cls' if os.name == 'nt' else 'clear')
-                        continue
-                    
-                    #guiding folder yn error
-                    else:
-                        print("Error. Please use either 'y' or 'n'")
-                        continue
+                                elif guiding_split.lower() in ["cls", "clear"]:
+                                    os.system('cls' if os.name == 'nt' else 'clear')
+                                    continue
 
-                #noise config####################################################################################################################################################################################################################################################
+                                #guiding folder split yn error
+                                else:
+                                    print("Error. Please use either 'y' or 'n'")
+                                    continue
+                            
+                            #no guiding folders
+                            elif guiding_folder == "n":
+                                break
 
-                while True:
-                    noise_folder = input("Do you have a noise folder? Enter 'y' for yes, 'n' for no: ")
-                    
-                    if noise_folder == "y":
-                        
-                        noise_split = input("Do you want to split it? If it has files then you should. Enter 'y' for yes, 'n' for no: ")
-                        
-                        if noise_split == "y":
-                        
-                            # noise files splitter
+                            elif guiding_folder.lower() in ["cls", "clear"]:
+                                os.system('cls' if os.name == 'nt' else 'clear')
+                                continue
+                            
+                            #guiding folder yn error
+                            else:
+                                print("Error. Please use either 'y' or 'n'")
+                                continue
 
-                            source_folder = os.path.join(folder_name, "noise")
-                            destination_base_folder = "Destination"
+                        #noise config####################################################################################################################################################################################################################################################
 
-                            print("Please wait while I split the Noise files...>.<")
+                        while True:
+                            noise_folder = input("Do you have a noise folder? Enter 'y' for yes, 'n' for no: ")
+                            
+                            if noise_folder == "y":
+                                
+                                noise_split = input("Do you want to split it? If it has files then you should. Enter 'y' for yes, 'n' for no: ")
+                                
+                                if noise_split == "y":
+                                
+                                    # noise files splitter
 
-                            count = 0
-                            folder_count = 1
+                                    source_folder = os.path.join(folder_name, "noise")
+                                    destination_base_folder = "Destination"
 
-                            os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "noise"), exist_ok=True)
+                                    print("Please wait while I split the Noise files...>.<")
 
-                            for filename in os.listdir(source_folder):
-                                source_file = os.path.join(source_folder, filename)
-
-                                # Copy files to the current destination folder
-                                shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "noise"))
-
-                                count += 1
-
-                                # If specified number of files are copied, reset the file counter and move to the next destination folder
-                                if count == file_count:
                                     count = 0
-                                    folder_count += 1
+                                    folder_count = 1
+
                                     os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "noise"), exist_ok=True)
 
-                            print("Noise files copy pasted successfully...>.<")
+                                    for filename in os.listdir(source_folder):
+                                        source_file = os.path.join(source_folder, filename)
 
-                            break
-                        
-                        elif noise_split == "n":
-                            # noise folders creator
-                        
-                            destination_root = "Destination"
+                                        # Copy files to the current destination folder
+                                        shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "noise"))
 
-                            print("Please wait while i copy the Noise folders... >.<")
+                                        count += 1
 
-                            for subfolder in os.listdir(destination_root):
-                                destination_folder = os.path.join(destination_root, subfolder, folder_name)
-                                source_folder = os.path.join(folder_name, "noise")
+                                        # If specified number of files are copied, reset the file counter and move to the next destination folder
+                                        if count == file_count:
+                                            count = 0
+                                            folder_count += 1
+                                            os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "noise"), exist_ok=True)
+
+                                    print("Noise files copy pasted successfully...>.<")
+
+                                    break
                                 
-                                # Check if the source noise folder exists
-                                if os.path.exists(source_folder):
-                                    # Create destination folder if it doesn't exist
-                                    os.makedirs(destination_folder, exist_ok=True)
-                                    # Copy the entire noise folder and its contents
-                                    shutil.copytree(source_folder, os.path.join(destination_folder, "noise"))
+                                elif noise_split == "n":
+                                    # noise folders creator
+                                
+                                    destination_root = "Destination"
 
-                            print("Noise folders copied successfully.")
+                                    print("Please wait while i copy the Noise folders... >.<")
 
-                            break
+                                    for subfolder in os.listdir(destination_root):
+                                        destination_folder = os.path.join(destination_root, subfolder, folder_name)
+                                        source_folder = os.path.join(folder_name, "noise")
+                                        
+                                        # Check if the source noise folder exists
+                                        if os.path.exists(source_folder):
+                                            # Create destination folder if it doesn't exist
+                                            os.makedirs(destination_folder, exist_ok=True)
+                                            # Copy the entire noise folder and its contents
+                                            shutil.copytree(source_folder, os.path.join(destination_folder, "noise"))
 
-                        elif noise_split.lower() in ["cls", "clear"]:
-                            os.system('cls' if os.name == 'nt' else 'clear')
-                            continue
+                                    print("Noise folders copied successfully.")
 
-                        #noise folder split yn error
-                        else:
-                            print("Error. Please use either 'y' or 'n'")
-                            continue
-                    
-                    #no noise folder
-                    elif noise_folder == "n":
-                        break
+                                    break
 
-                    elif noise_folder.lower() in ["cls", "clear"]:
-                        os.system('cls' if os.name == 'nt' else 'clear')
-                        continue
-                    
-                    #noise folder yn error
-                    else:
-                        print("Error. Please use either 'y' or 'n'")
-                        continue
+                                elif noise_split.lower() in ["cls", "clear"]:
+                                    os.system('cls' if os.name == 'nt' else 'clear')
+                                    continue
 
-                #particles config####################################################################################################################################################################################################################################################
+                                #noise folder split yn error
+                                else:
+                                    print("Error. Please use either 'y' or 'n'")
+                                    continue
+                            
+                            #no noise folder
+                            elif noise_folder == "n":
+                                break
 
-                while True:
-                    particles_folder = input("Do you have a particles folder? Enter 'y' for yes, 'n' for no: ")
-                    
-                    if particles_folder == "y":
-                        
-                        particles_split = input("Do you want to split it? If it has files then you should. Enter 'y' for yes, 'n' for no: ")
-                        
-                        if particles_split == "y":
-                        
-                            # particles files splitter
+                            elif noise_folder.lower() in ["cls", "clear"]:
+                                os.system('cls' if os.name == 'nt' else 'clear')
+                                continue
+                            
+                            #noise folder yn error
+                            else:
+                                print("Error. Please use either 'y' or 'n'")
+                                continue
 
-                            source_folder = os.path.join(folder_name, "particles")
-                            destination_base_folder = "Destination"
+                        #particles config####################################################################################################################################################################################################################################################
 
-                            print("Please wait while I split the Particles files...>.<")
+                        while True:
+                            particles_folder = input("Do you have a particles folder? Enter 'y' for yes, 'n' for no: ")
+                            
+                            if particles_folder == "y":
+                                
+                                particles_split = input("Do you want to split it? If it has files then you should. Enter 'y' for yes, 'n' for no: ")
+                                
+                                if particles_split == "y":
+                                
+                                    # particles files splitter
 
-                            count = 0
-                            folder_count = 1
+                                    source_folder = os.path.join(folder_name, "particles")
+                                    destination_base_folder = "Destination"
 
-                            os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "particles"), exist_ok=True)
+                                    print("Please wait while I split the Particles files...>.<")
 
-                            for filename in os.listdir(source_folder):
-                                source_file = os.path.join(source_folder, filename)
-
-                                # Copy files to the current destination folder
-                                shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "particles"))
-
-                                count += 1
-
-                                # If specified number of files are copied, reset the file counter and move to the next destination folder
-                                if count == file_count:
                                     count = 0
-                                    folder_count += 1
+                                    folder_count = 1
+
                                     os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "particles"), exist_ok=True)
 
-                            print("Particles files copy pasted successfully...>.<")
+                                    for filename in os.listdir(source_folder):
+                                        source_file = os.path.join(source_folder, filename)
 
-                            break
-                        
-                        elif particles_split == "n":
-                            # particles folders creator
-                        
-                            destination_root = "Destination"
+                                        # Copy files to the current destination folder
+                                        shutil.copy(source_file, os.path.join(destination_base_folder, str(folder_count), folder_name, "particles"))
 
-                            print("Please wait while i copy the Particles folders... >.<")
+                                        count += 1
 
-                            for subfolder in os.listdir(destination_root):
-                                destination_folder = os.path.join(destination_root, subfolder, folder_name)
-                                source_folder = os.path.join(folder_name, "particles")
+                                        # If specified number of files are copied, reset the file counter and move to the next destination folder
+                                        if count == file_count:
+                                            count = 0
+                                            folder_count += 1
+                                            os.makedirs(os.path.join(destination_base_folder, str(folder_count), folder_name, "particles"), exist_ok=True)
+
+                                    print("Particles files copy pasted successfully...>.<")
+
+                                    break
                                 
-                                # Check if the source particles folder exists
-                                if os.path.exists(source_folder):
-                                    # Create destination folder if it doesn't exist
-                                    os.makedirs(destination_folder, exist_ok=True)
-                                    # Copy the entire particles folder and its contents
-                                    shutil.copytree(source_folder, os.path.join(destination_folder, "particles"))
+                                elif particles_split == "n":
+                                    # particles folders creator
+                                
+                                    destination_root = "Destination"
 
-                            print("Particles folders copy pasted successfully.")
+                                    print("Please wait while i copy the Particles folders... >.<")
 
-                            break
+                                    for subfolder in os.listdir(destination_root):
+                                        destination_folder = os.path.join(destination_root, subfolder, folder_name)
+                                        source_folder = os.path.join(folder_name, "particles")
+                                        
+                                        # Check if the source particles folder exists
+                                        if os.path.exists(source_folder):
+                                            # Create destination folder if it doesn't exist
+                                            os.makedirs(destination_folder, exist_ok=True)
+                                            # Copy the entire particles folder and its contents
+                                            shutil.copytree(source_folder, os.path.join(destination_folder, "particles"))
 
-                        elif particles_split.lower() in ["cls", "clear"]:
-                            os.system('cls' if os.name == 'nt' else 'clear')
-                            continue
+                                    print("Particles folders copy pasted successfully.")
 
-                        #particles folder split yn error
-                        else:
-                            print("Error. Please use either 'y' or 'n'")
-                            continue
-                    
-                    #no particles folder
-                    elif particles_folder == "n":
+                                    break
+
+                                elif particles_split.lower() in ["cls", "clear"]:
+                                    os.system('cls' if os.name == 'nt' else 'clear')
+                                    continue
+
+                                #particles folder split yn error
+                                else:
+                                    print("Error. Please use either 'y' or 'n'")
+                                    continue
+                            
+                            #no particles folder
+                            elif particles_folder == "n":
+                                break
+
+                            elif particles_folder.lower() in ["cls", "clear"]:
+                                os.system('cls' if os.name == 'nt' else 'clear')
+                                continue
+                            
+                            #particles folder yn error
+                            else:
+                                print("Error. Please use either 'y' or 'n'")
+                                continue
+
+                        #blend file copy paste####################################################################################################################################################################################################################################################
+
+                        while True:
+                            # Ask for source file name
+                            source_file = input("Enter the name of the blend file that you want to copy (with extension): ")
+
+                            if source_file.lower() in ["cls", "clear"]:  # Check for "cls" or "clear" inputs
+                                os.system('cls' if os.name == 'nt' else 'clear')
+                                continue  # Restart the loop without checking files
+
+                            # List files in the current directory (case sensitive)
+                            files_in_directory = os.listdir('.')
+
+                            # Check if source file exists (case sensitive)
+                            if source_file not in files_in_directory:
+                                error_msg()
+                            
+                            else:
+                                print("Please wait till I copy and paste the blend file in the correct folders... >.<")
+                                break
+
+                        # Destination folder name
+                        destination_folder = "Destination"
+
+                        # Check if destination folder exists, create if not
+                        if not os.path.exists(destination_folder):
+                            os.makedirs(destination_folder)
+
+                        # Iterate over immediate subdirectories in the Destination folder
+                        for directory in os.listdir(destination_folder):
+                            # Construct destination path
+                            destination_path = os.path.join(destination_folder, directory, os.path.basename(source_file))
+                            # Copy the file to each subdirectory
+                            shutil.copy2(source_file, destination_path)
+
+                        print("Blend file copy pasted successfully.")
+
                         break
-
-                    elif particles_folder.lower() in ["cls", "clear"]:
+                        
+                    elif file_count.lower() in ["cls", "clear"]:
                         os.system('cls' if os.name == 'nt' else 'clear')
                         continue
-                    
-                    #particles folder yn error
+
                     else:
-                        print("Error. Please use either 'y' or 'n'")
+                        print("Please enter a valid integer value.")
                         continue
 
-                #blend file copy paste####################################################################################################################################################################################################################################################
 
-                while True:
-                    # Ask for source file name
-                    source_file = input("Enter the name of the blend file that you want to copy (with extension): ")
-
-                    if source_file.lower() in ["cls", "clear"]:  # Check for "cls" or "clear" inputs
-                        os.system('cls' if os.name == 'nt' else 'clear')
-                        continue  # Restart the loop without checking files
-
-                    # List files in the current directory (case sensitive)
-                    files_in_directory = os.listdir('.')
-
-                    # Check if source file exists (case sensitive)
-                    if source_file not in files_in_directory:
-                        error_msg()
-                    
-                    else:
-                        print("Please wait till I copy and paste the blend file in the correct folders... >.<")
-                        break
-
-                # Destination folder name
-                destination_folder = "Destination"
-
-                # Check if destination folder exists, create if not
-                if not os.path.exists(destination_folder):
-                    os.makedirs(destination_folder)
-
-                # Iterate over immediate subdirectories in the Destination folder
-                for directory in os.listdir(destination_folder):
-                    # Construct destination path
-                    destination_path = os.path.join(destination_folder, directory, os.path.basename(source_file))
-                    # Copy the file to each subdirectory
-                    shutil.copy2(source_file, destination_path)
-
-                print("Blend file copy pasted successfully.")
 
                 break
-                
-            elif file_count.lower() in ["cls", "clear"]:
+
+            # clears your shit
+            elif folder_name.lower() in ["cls", "clear"]:
                 os.system('cls' if os.name == 'nt' else 'clear')
                 continue
 
+
+            # because people are dumb fucks
             else:
-                print("Please enter a valid integer value.")
+                error_msg()
+                continue
+            
+            break
+        # checks the version
+    elif starting_choice.lower() in ["ver", "version"]:
+
+            # Specify your GitHub username and repository name
+            repo_owner = "ingenarel"
+            repo_name = "Split-It"
+
+            # Get local version of your tool (replace this with your logic)
+            local_version = "v0.8"  # Example local version, replace with your own logic
+
+            # Get latest release version from GitHub
+            try:
+                url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
+                response = requests.get(url)
+                if response.status_code == 200:
+                    latest_release = response.json()
+                    latest_version = latest_release.get('tag_name')
+
+                else:
+                    if response.status_code == 400:
+                        print("ERROR 400 Bad request:")
+                        print("")
+                        print("This status code indicates that there's something off with the request you sent to the server.")
+                        print("It's like filling out a form incorrectly or forgetting to provide essential details.")
+                        print("The server couldn't understand or process your request due to missing or malformed data.")
+                        print("")
+
+                    elif response.status_code == 401:
+                        print("ERROR 401 Unauthorized:")
+                        print("")
+                        print("This status code means you're not allowed to access the requested resource without proper authentication.")
+                        print("It's like trying to enter a restricted area without showing your ID.")
+                        print("You need to provide valid credentials, such as a username and password or an authentication token, to gain access.")
+                        print("")
+
+                    elif response.status_code == 403:
+                        print("ERROR 403 Unauthorized:")
+                        print("")
+                        print("You're being denied access, plain and simple.")
+                        print("Even with valid credentials, you're not allowed to access the resource because you lack the necessary permissions. ")
+                        print("It's like trying to enter a building without the proper authorization or access card.")
+                        print("You need to request permission from the appropriate authorities.")
+                        print("")
+
+                    elif response.status_code == 404:
+                        print("ERROR 404 Unauthorized:")
+                        print("")
+                        print("This status code indicates that the server couldn't find the resource you requested.")
+                        print("It's like looking for a book on a library shelf only to discover it's not there. ")
+                        print("The resource may have been moved, deleted, or simply never existed. ")
+                        print("Double-check the URL or try searching for the resource in a different location.")
+                        print("")
+
+                    elif response.status_code == 422:
+                        print("ERROR 422 Unauthorized:")
+                        print("")
+                        print("Ah, it seems there's a problem with the data you provided. ")
+                        print("This status code typically occurs when the server understands your request but can't process it due to invalid data. ")
+                        print("It's like trying to fill out a form with incorrect or incomplete information. ")
+                        print("Review the data you submitted and ensure it meets the server's requirements.")
+                        print("")
+
+                    elif response.status_code == 429:
+                        print("ERROR 429 Unauthorized:")
+                        print("")
+                        print("Slow down there! You've been making too many requests to the server within a short period. ")
+                        print("This status code indicates that you've hit a rate limit, and the server is asking you to ease up for a bit. ")
+                        print("It's like trying to take too many slices of cake at once, and someone politely suggests you wait your turn.")
+                        print("")
+
+                    elif response.status_code == 500:
+                        print("ERROR 500 Unauthorized:")
+                        print("")
+                        print("Uh-oh, something went wrong on the server's end, and it's not your fault. ")
+                        print("This status code indicates an unexpected problem occurred while the server was trying to process your request. ")
+                        print("It's like ordering food at a restaurant and having the kitchen catch fire. ")
+                        print("The server is apologizing for the inconvenience and asking for your patience while they sort things out.")
+                        print("")
+
+                    elif response.status_code == 503:
+                        print("ERROR 503 Unauthorized:")
+                        print("")
+                        print("Hold your horses! The server is currently unavailable to handle your request. ")
+                        print("This status code typically occurs due to maintenance or overload. ")
+                        print("It's like calling a store outside of business hours and getting a message saying they're closed for the day. ")
+                        print("You'll need to try again later when the server is back up and running.")
+                        print("")
+
+                    else:
+                        print("I Don't know what the fuck are you doing but I can't find an error code for you.")
+                        print("")
+                        
+                    input("press enter to go back to simulation folder select")
+                    continue
+
+            except requests.exceptions.RequestException as e:
+                print("Failed to retrieve the latest version from GitHub.")
+                print("Please check your internet connection and try again.")
                 continue
 
+            # Check if latest version is available and prompt user to download
+            if latest_version:
+                print(f"Current version: {local_version}")
+                print(f"Latest version: {latest_version}")
+                
+                if local_version == latest_version:
+                    print("You are already using the latest version.")
+                    input("press enter to go back to simulation folder select")
 
+                else:
+                    while True:
+                        print("A new version is available. Do you want to download it?")
+                        print("You if you want to use the latest version, you need to start it from the downloaded version though.")
+                        print("It creates a folder called latest_build and stores the zip there.")
+                        choice = input("press y to download and n to cancel: ")
+                        
+                        if choice.lower() == "y":
+                            # Download the latest build
+                            assets = latest_release.get('assets', [])
+                            
+                            if assets:
+                                # Create a folder to store the downloaded files
+                                download_folder = "latest_build"
+                                os.makedirs(download_folder, exist_ok=True)
 
-        break
+                                for asset in assets:
+                                    download_url = asset.get('browser_download_url')
+                                    download_response = requests.get(download_url)
+                            
+                                    if download_response.status_code == 200:
+                                        # Save the file
+                                        file_path = os.path.join(download_folder, asset.get('name'))
+                                        with open(file_path, 'wb') as file:
+                                            file.write(download_response.content)
+                                        print(f"Downloaded: {asset.get('name')}")
+                                        break
 
-    # clears your shit
-    elif folder_name.lower() in ["cls", "clear"]:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        continue
+                                    else:
+                                        print(f"Failed to download: {asset.get('name')}")
+                                        input("press enter to go back to simulation folder select")
+                                        break
 
-    # because people are dumb fucks
-    else:
-        error_msg()
-        continue
+                                print(f"All assets from the latest release have been downloaded to '{download_folder}'.")
+                                input("press enter to go back to simulation folder select")
+                                break
+
+                            else:
+                                print("No assets found in the latest release.")
+                                input("press enter to go back to simulation folder select")
+                                break
+                        elif choice.lower() == "n":
+                            print("Skipping download.")
+                            input("press enter to go back to simulation folder select")
+                            break
+
+                        elif choice.lower() in ["cls", "clear"]:
+                            os.system('cls' if os.name == 'nt' else 'clear')
+                            continue
+
+                        else:
+                            print("Invalid choice. Please enter 'yes' or 'no'.")
+                            continue
+            else:
+                print("Failed to retrieve the latest version from GitHub. Please check your internet connection and try again.")
+                input("press enter to go back to simulation folder select")
+
+            continue
 
 #THIS IS THE ZIPPER AND I FUCKING HAD TO PUT IT HERE BECAUSE IT WASN'T FUCKING WORKING AND NOW I'M TESTING IT I JUST WANT TO FUCKING KILL MYSELF FUCK
 
