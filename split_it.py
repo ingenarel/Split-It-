@@ -1,6 +1,7 @@
+#Importing Modules
 import ctypes, os, shutil, zipfile, requests
 
-#The Software startup and telling what is needed.
+#The title Screen with some light Credits sprinkled in.
 def start(**kwargs):
     ctypes.windll.kernel32.SetConsoleTitleW(kwargs["title"])
     print("""
@@ -38,6 +39,24 @@ ________       ________    ___           ___      _________                ___  
  | |  |  \\| | | |  _  |  _|   |  \\| |   / _ \\   | |_) | |  _|   | |
  | |  | |\\  | | |_| | | |___  | |\\  |  / ___ \\  |  _ <  | |___  | |___
 |___| |_| \\_|  \\____| |_____| |_| \\_| /_/   \\_\\ |_| \\_\\ |_____| |_____|
+
+
+ ______                _   _                                  _
+|  ____|              | | (_)                                (_)
+| |__ _   _ _ __   ___| |_ _  ___  _ __   __   _____ _ __ ___ _  ___  _ __
+|  __| | | | '_ \ / __| __| |/ _ \| '_ \  \ \ / / _ \ '__/ __| |/ _ \| '_ \\
+| |  | |_| | | | | (__| |_| | (_) | | | |  \ V /  __/ |  \__ \ | (_) | | | |
+|_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|   \_/ \___|_|  |___/_|\___/|_| |_|
+ _               ____ _                                                            __ _   
+| |            / ____| |                             (_)                          / _| |  
+| |__  _   _  | |    | |__   __ _  ___  ___ _ __ ___  _ _ __   ___  ___ _ __ __ _| |_| |_ 
+| '_ \| | | | | |    | '_ \ / _` |/ _ \/ __| '_ ` _ \| | '_ \ / _ \/ __| '__/ _` |  _| __|
+| |_) | |_| | | |____| | | | (_| | (_) \__ \ | | | | | | | | |  __/ (__| | | (_| | | | |_ 
+|_.__/ \__, |  \_____|_| |_|\__,_|\___/|___/_| |_| |_|_|_| |_|\___|\___|_|  \__,_|_|  \__|
+        __/ |                                                                             
+       |___/                                                                              
+
+
 
 
 ________________________________________________________________________________________________________________________________________________
@@ -108,6 +127,7 @@ def success_msg():
     print("\\___ \\  | | | | | |     | |     |  _|   \\___ \\  \\___ \\  | | | | | |")
     print(" ___) | | |_| | | |___  | |___  | |___   ___) |  ___) | |_| |_| |_|")
     print("|____/   \\___/   \\____|  \\____| |_____| |____/  |____/  (_) (_) (_)")
+    return
 
 #Something went wrong while splitting.
 def error_msg():
@@ -160,7 +180,7 @@ def error_msg():
                                                    tkeLAAAAAAAAAAAAAAABXw""")
     return
 
-#The splitter is done
+#The splitter is done message
 def end():
     print("""Your splitting is finished. yayyyyyyy!!!!!
 
@@ -237,15 +257,16 @@ class variables:
     repo_owner = "ingenarel"
     repo_name = "Split-It"
     
-    #folder specific variables for copying/other
+    #folder specific variables for copying/other used in and for the "processing_folders" function
     folder_name=""
     
+    #The lookup is for processing the folders and Variables for the "processing_folders" function
     folder_lookup={"1": "config", "2": "data", "3": "mesh", "4": "guiding", "5": "noise", "6": "particles"}
     current_folder=1
     max_folders=6
 
     output_dir=""
-    
+
     file_count=0
     source_folder=""
     folder_list=""
@@ -280,8 +301,10 @@ def list_folders():
 
 #Function for copying all the folders.
 def processing_folders():
+    #That while loop is for each folder "config, data, mesh, guiding, noise, particles"
     while variables.current_folder<variables.max_folders+1:
         while True:
+            #That while loop is for the file count to not end up at 0
             if variables.file_count==0:
                 while True:
                     try:
@@ -295,16 +318,22 @@ def processing_folders():
                     elif variables.file_count > 9:
                         break
             
+            #Getting the output directory and source folder.
             variables.output_dir=str(variables.folder_lookup.get(str(variables.current_folder)))
             variables.source_folder=os.path.join(variables.folder_name, variables.output_dir)
 
+            #splitting >w<
             print(f"Please wait while I split the {variables.folder_lookup.get(str(variables.current_folder))} files... >.<")
             
+            #If the folder doesn't exist, make one
             try:
                 os.makedirs(os.path.join(variables.destination_base_folder, str(variables.folder_count), variables.folder_name, variables.output_dir), variables.exist_ok)
+            
+            #if the folder does exist, just pass out.
             except FileExistsError:
                 pass
             
+            #The actual copying finally happens.
             for filename in os.listdir(variables.source_folder):
                 variables.source_file = os.path.join(variables.source_folder, filename)
                 
@@ -322,11 +351,15 @@ def processing_folders():
                     except FileExistsError:
                         pass
             break
+        
+        #setting the variables back to what they should be
         variables.count=0
         variables.folder_count=1
         variables.current_folder+=1
         variables.output_dir=str(variables.folder_lookup.get(str(variables.current_folder)))
         print(variables.current_folder)
+    
+    #resetting the variables used that are needed to be resetted
     variables.count=0
     variables.folder_count=1
     variables.current_folder=1
@@ -335,8 +368,9 @@ def processing_folders():
 
 
 
-#THIS IS THE ZIPPER AND I FUCKING HAD TO PUT IT HERE BECAUSE IT WASN'T FUCKING WORKING AND NOW I'M TESTING IT I JUST WANT TO FUCKING KILL MYSELF FUCK
+#The zipper function (No humans have been harmed at the making.)
 def zip_files():
+    #Zipping >w<
     print("Please wait while I zip the files... >.<")
 
     # Change directory to the destination folder
@@ -346,7 +380,7 @@ def zip_files():
     for variables.folder_name in os.listdir():
         if os.path.isdir(variables.folder_name):
             # Create a zip file with the same name as the folder
-            with zipfile.ZipFile(f"{variables.folder_name}.zip", "w") as zip_file:
+            with zipfile.ZipFile(f"Split-It-{variables.folder_name}.zip", "w") as zip_file:
                 # Add all files and empty folders in the folder to the zip file
                 for root, dirs, files in os.walk(variables.folder_name):
                     # Add files
@@ -360,9 +394,11 @@ def zip_files():
                                                 os.path.join(variables.folder_name))
                         zip_file.write(os.path.join(root, dir), dir_path)
 
+    #Zipping finished and the user is being asked if they wanna delete the folders.
     print("All folders zipped successfully.")
     ask_deletion()
 
+#Asking if filders (except the zip files!) want to be deleted.
 def ask_deletion():
     while True:
         print("""
@@ -379,10 +415,13 @@ The zip files won't be deleted, just the folders and files that were created in 
             break
         
         elif choice=="cls" or choice=="clear":
+            #Clearing the screen
             os.system('cls' if os.name == 'nt' else 'clear')
         
         else:
             print('Error: Please use euther "y" or "n"')
+    os.chdir("..")
+    success_msg()
     end()
 
 
@@ -420,7 +459,7 @@ You need to provide valid credentials, such as a username and password or an aut
 """)
         
             elif response.status_code == 403:
-                print("""ERROR 403: Unauthorized
+                print("""ERROR 403: Forbidden.
 
 You're being denied access, plain and simple.")
 Even with valid credentials, you're not allowed to access the resource because you lack the necessary permissions.
@@ -429,7 +468,7 @@ You need to request permission from the appropriate authorities.
 """)
         
             elif response.status_code == 404:
-                print("""ERROR 404: Unauthorized.
+                print("""ERROR 404: File not found.
 
 This status code indicates that the server couldn't find the resource you requested.
 It's like looking for a book on a library shelf only to discover it's not there. 
@@ -438,7 +477,7 @@ Double-check the URL or try searching for the resource in a different location.
 """)
         
             elif response.status_code == 422:
-                print("""ERROR 422: Unauthorized.
+                print("""ERROR 422: Unprocessable Entity.
 
 Ah, it seems there's a problem with the data you provided. ")
 This status code typically occurs when the server understands your request but can't process it due to invalid data.
@@ -447,7 +486,7 @@ Review the data you submitted and ensure it meets the server's requirements.
 """)
             
             elif response.status_code == 429:
-                print("""ERROR 429: Unauthorized.
+                print("""ERROR 429: Too Many Requests.
 
 Slow down there! You've been making too many requests to the server within a short period. ")
 This status code indicates that you've hit a rate limit, and the server is asking you to ease up for a bit. ")
@@ -464,7 +503,7 @@ The server is apologizing for the inconvenience and asking for your patience whi
 """)
         
             elif response.status_code == 503:
-                print("""ERROR 503 Unauthorized:
+                print("""ERROR 503: Server was not ready
 
 Hold your horses! The server is currently unavailable to handle your request.
 This status code typically occurs due to maintenance or overload.
@@ -555,7 +594,7 @@ def main_func():
     while True:
         print("""
 You can type "Ver" or "Version" to check if an update is there.
-You can type "cls" or "clear screen" to clean the Terminal/Command Prompt.
+You can type "cls" or "clear" to clean the Terminal/Command Prompt.
 Type "s" or "start" to use the splitter.
 type "help" for a more thorough help site.""")
         
