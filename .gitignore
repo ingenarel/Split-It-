@@ -1,0 +1,6 @@
+*.txt
+SimMake/
+Destination/
+__pycache__/
+fortestingonly.py
+logger.py
