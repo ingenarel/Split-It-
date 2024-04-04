@@ -557,29 +557,36 @@ Please check your internet connection.""")
                                     file.write(download_response.content)
                                 print(f"Downloaded: {asset.get('name')}")
                                 break
-
+                            
+                            #There has been an issue downloading
                             else:
                                 print(f"Failed to download: {asset.get('name')}")
                                 input("press enter to go back to simulation folder select")
                                 break
 
+                        #Downloading is done 👍
                         print(f"All assets from the latest release have been downloaded to '{download_folder}'.")
                         input("press enter to go back to simulation folder select")
                         break
 
+                    #no assets found
                     else:
                         print("No assets found in the latest release.")
                         input("press enter to go back to simulation folder select")
                         break
+
+                #Skipped the download
                 elif choice.lower() == "n":
                     print("Skipping download.")
                     input("press enter to go back to simulation folder select")
                     break
 
+                #Clearing the screen.
                 elif choice.lower() in ["cls", "clear"]:
                     os.system('cls' if os.name == 'nt' else 'clear')
                     continue
 
+                #Choice was invalid...
                 else:
                     print("Invalid choice. Please enter 'yes' or 'no'.")
                     continue
@@ -589,7 +596,7 @@ Please check your internet connection.""")
 
         return
     
-
+#the main function that handles the stuff.
 def main_func():
     while True:
         print("""
@@ -600,13 +607,19 @@ type "help" for a more thorough help site.""")
         
         starting_choice=input("What do you want to do? ").lower()
         
+        #starting the main feature.
         if starting_choice=="s" or starting_choice=="start":
             list_folders()
             processing_folders()
         
+        #Checking the version
         elif starting_choice=="ver" or starting_choice=="version":
             update_check(url=f"https://api.github.com/repos/{variables.repo_owner}/{variables.repo_name}/releases/latest")
         
+        elif starting_choice=="cls" or starting_choice=="clear":
+            os.system('cls' if os.name == 'nt' else 'clear')
+        
+        #Closing the program
         elif starting_choice=="exit()" or starting_choice=="exit" or starting_choice=="close":
             exit()
 
