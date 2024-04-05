@@ -8,3 +8,4 @@ fortestingonly.py
 logger.py
 temp.py
 *.code-workspace
+config.json

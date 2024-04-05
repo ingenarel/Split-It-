@@ -659,6 +659,7 @@ def init():
     
     Settings.is_cli=Settings.setting_file.get("is-cli")
     Settings.theme=Settings.setting_file.get("theme")
+    main_func()
     
 
 if __name__=="__main__":
