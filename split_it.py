@@ -1,5 +1,5 @@
 #Importing Modules
-import ctypes, os, shutil, zipfile, requests
+import ctypes, os, shutil, zipfile, requests, json
 
 #The Software startup and telling what is needed.
 def start(**kwargs):
@@ -52,14 +52,8 @@ ________________________________________________________________________________
 For the best visual experience, please Maximise the Terminal/Command Prompt.
 
 BEFORE YOU START THIS MAKE SURE THAT YOU HAVE DOUBLE THE EMPTY SPACE IN YOUR DRIVE AS YOUR BLEND AND CACHE FILE COMBINED!
-THAT MEANS IF YOUR BLEND FILE IS 100 mb AND YOUR SIMULATION CACHE FOLDER IS 900 mb, MAKE SURE THAT YOU HAVE ATLEAST 2 gb OF EMPTY SPACE IN YOUR DRIVE!""")
-    please_enter_your_simulation_folder_name()
-    return
-
-#Printing the "please enter your Simulation folder name" text
-def please_enter_your_simulation_folder_name():
-
-    print(""" ____   _                                        _
+THAT MEANS IF YOUR BLEND FILE IS 100 mb AND YOUR SIMULATION CACHE FOLDER IS 900 mb, MAKE SURE THAT YOU HAVE ATLEAST 2 gb OF EMPTY SPACE IN YOUR DRIVE!
+____   _                                        _
 |  _ \\ | |  ___   __ _  ___   ___    ___  _ __  | |_  ___  _ __   _   _   ___   _   _  _ __
 | |_) || | / _ \\ / _` |/ __| / _ \\  / _ \\| '_ \\ | __|/ _ \\| '__| | | | | / _ \\ | | | || '__|
 |  __/ | ||  __/| (_| |\\__ \\|  __/ |  __/| | | || |_|  __/| |    | |_| || (_) || |_| || |
@@ -69,7 +63,6 @@ def please_enter_your_simulation_folder_name():
 / __|| || '_ ` _ \\ | | | || | / _` || __|| | / _ \\ | '_ \\  | |_  / _ \\ | | / _` | / _ \\| '__| | '_ \\  / _` || '_ ` _ \\  / _ \\
 \\__ \\| || | | | | || |_| || || (_| || |_ | || (_) || | | | |  _|| (_) || || (_| ||  __/| |    | | | || (_| || | | | | ||  __/
 |___/|_||_| |_| |_| \\__,_||_| \\__,_| \\__||_| \\___/ |_| |_| |_|   \\___/ |_| \\__,_| \\___||_|    |_| |_| \\__,_||_| |_| |_| \\___|""")
-    main_func()
     return
 
 #Successfuly splitted it.
@@ -740,6 +733,59 @@ Type "c" for credits.        """)
         
         elif starting_choice == "help":
             helpsite()
+        
+        elif starting_choice=="configs":
+            handle_settings()
+            return
+
+class Settings:
+    is_cli=True
+    theme="W.I.P"
+    setting_file={}
+
+def settings_init():
+    Settings.setting_file={
+        "is-cli": Settings.is_cli,
+        "theme": "W.I.P"
+    }
+    with open("config.json", "w") as file:
+        json.dump(Settings.setting_file, file)
+    return
+
+def handle_settings(**kwargs):
+    print(f"\nWork in progress, please wait until next version ^w^")
+    #return
+    print("Do you wanna run the code in Command Line Interface (CLI) or Graphical(GUI)? ")
+    choice=input("CLI/GUI: ").lower()
+    if choice=="cli":
+        Settings.is_cli=True
+    
+    elif choice=="GUI":
+        print("Info: That mode is currently under developement, do you wanna continue? Y is yes, and N is no.")
+        choice2=input("Y/N: ").lower()
+        if choice2=="y" or choice2=="yes":
+            Settings.is_cli=False
+
+def init():
+    while True:
+        try:
+            with open("config.json", "r") as file:
+                Settings.setting_file=json.load(file)
+                break
+        except FileNotFoundError:
+            settings_init()
+
+    while True:
+        Settings.is_cli=Settings.setting_file.get("is-cli")
+        Settings.theme=Settings.setting_file.get("theme")
+        if Settings.is_cli==True:
+            main_func()
+        elif Settings.is_cli==False:
+            #Oh man chaos, we talked about it, PUT THE FUCKING FUNCTION THERE! (How?) JUST DO IT! "if anyone is concerned, i was just having some fun writing that. ^w^
+            print("That is not ready yet dear user ^w^, Let me fix the current softlock for you >.<")
+            Settings.is_cli=True
+    
 
 if __name__=="__main__":
     start(title=variables.title)
+    init()
