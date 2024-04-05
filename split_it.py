@@ -1,181 +1,137 @@
 #Importing Modules
-import ctypes, os, shutil, zipfile, requests, json
+import ctypes, os, shutil, zipfile, requests
 
-#The title Screen with some light Credits sprinkled in.
+#The Software startup and telling what is needed.
 def start(**kwargs):
     ctypes.windll.kernel32.SetConsoleTitleW(kwargs["title"])
-    print(" ________       ________    ___           ___      _________                ___      _________    ___")
-    print("|\\   ____\\     |\\   __  \\  |\\  \\         |\\  \\    |\\___   ___\\             |\\  \\    |\\___   ___\\ |\\  \\")
-    print("\\ \\  \\___|_    \\ \\  \\|\\  \\ \\ \\  \\        \\ \\  \\   \\|___ \\  \\_|             \\ \\  \\   \\|___ \\  \\_| \\ \\  \\")
-    print(" \\ \\_____  \\    \\ \\   ____\\ \\ \\  \\        \\ \\  \\       \\ \\  \\               \\ \\  \\       \\ \\  \\   \\ \\  \\")
-    print("  \\|____|\\  \\    \\ \\  \\___|  \\ \\  \\____    \\ \\  \\       \\ \\  \\               \\ \\  \\       \\ \\  \\   \\ \\__\\")
-    print("    ____\\_\\  \\    \\ \\__\\      \\ \\_______\\   \\ \\__\\       \\ \\__\\               \\ \\__\\       \\ \\__\\   \\|__|")
-    print("   |\\_________\\    \\|__|       \\|_______|    \\|__|        \\|__|                \\|__|        \\|__|       ___ ")
-    print("   \\|_________|                                                                                        |\\__\\")
-    print("                                                                                                       \\|__")
-    print("")
-    print("    _                           _                              _                    _         _    _")
-    print("   / \\         ___  _   _  ___ | |_  ___   _ __ ___       ___ (_) _ __ ___   _   _ | |  __ _ | |_ (_)  ___   _ __")
-    print("  / _ \\       / __|| | | |/ __|| __|/ _ \\ | '_ ` _ \\     / __|| || '_ ` _ \\ | | | || | / _` || __|| | / _ \\ | '_ \\")
-    print(" / ___ \\     | (__ | |_| |\\__ \\| |_| (_) || | | | | |    \\__ \\| || | | | | || |_| || || (_| || |_ | || (_) || | | |")
-    print("/_/   \\_\\     \\___| \\__,_||___/ \\__|\\___/ |_| |_| |_|    |___/|_||_| |_| |_| \\__,_||_| \\__,_| \\__||_| \\___/ |_| |_|")
-    print("                   _                            _  _  _    _                    __                   ____   _                        ___  _        _")
-    print("  ___  __ _   ___ | |__    ___      ___  _ __  | |(_)| |_ | |_  ___  _ __      / _|  ___   _ __     / ___| | |__    ___   ___  _ __ |_ _|| |_     | |")
-    print(" / __|/ _` | / __|| '_ \\  / _ \\    / __|| '_ \\ | || || __|| __|/ _ \\| '__|    | |_  / _ \\ | '__|    \\___ \\ | '_ \\  / _ \\ / _ \\| '_ \\ | | | __|    | |")
-    print("| (__| (_| || (__ | | | ||  __/    \\__ \\| |_) || || || |_ | |_|  __/| |       |  _|| (_) || |        ___) || | | ||  __/|  __/| |_) || | | |_     |_|")
-    print(" \\___|\\__,_| \\___||_| |_| \\___|    |___/| .__/ |_||_| \\__| \\__|\\___||_|       |_|   \\___/ |_|       |____/ |_| |_| \\___| \\___|| .__/|___| \\__|    (_)")
-    print("                                        |_|                                                                                   |_|")
-    print("")
-    print("")
-    print(" __  __               _            ____")
-    print("|  \\/  |   __ _    __| |   ___    | __ )   _   _")
-    print("| |\\/| |  / _` |  / _` |  / _ \\   |  _ \\  | | | |")
-    print("| |  | | | (_| | | (_| | |  __/   | |_) | | |_| |")
-    print("|_|  |_|  \\__,_|  \\__,_|  \\___|   |____/   \\__, |")
-    print("                                           |___/")
-    print(" ___   _   _    ____   _____   _   _      _      ____    _____   _")
-    print("|_ _| | \\ | |  / ___| | ____| | \\ | |    / \\    |  _ \\  | ____| | |")
-    print(" | |  |  \\| | | |  _  |  _|   |  \\| |   / _ \\   | |_) | |  _|   | |")
-    print(" | |  | |\\  | | |_| | | |___  | |\\  |  / ___ \\  |  _ <  | |___  | |___")
-    print("|___| |_| \\_|  \\____| |_____| |_| \\_| /_/   \\_\\ |_| \\_\\ |_____| |_____|")
-    print("")
-    print("")
-    print(" ______                _   _                                  _")
-    print("|  ____|              | | (_)                                (_)")
-    print("| |__ _   _ _ __   ___| |_ _  ___  _ __   __   _____ _ __ ___ _  ___  _ __")
-    print("|  __| | | | '_ \\ / __| __| |/ _ \\| '_ \\  \\ \\ / / _ \\ '__/ __| |/ _ \\| '_ \\")
-    print("| |  | |_| | | | | (__| |_| | (_) | | | |  \\ V /  __/ |  \\__ \\ | (_) | | | |")
-    print("|_|   \\__,_|_| |_|\\___|\\__|_|\\___/|_| |_|   \\_/ \\___|_|  |___/_|\\___/|_| |_|")
-    print(" _               ____ _                                                            __ _   ")
-    print("| |            / ____| |                             (_)                          / _| |  ")
-    print("| |__  _   _  | |    | |__   __ _  ___  ___ _ __ ___  _ _ __   ___  ___ _ __ __ _| |_| |_ ")
-    print("| '_ \\| | | | | |    | '_ \\ / _` |/ _ \\/ __| '_ ` _ \\| | '_ \\ / _ \\/ __| '__/ _` |  _| __|")
-    print("| |_) | |_| | | |____| | | | (_| | (_) \\__ \\ | | | | | | | | |  __/ (__| | | (_| | | | |_ ")
-    print("|_.__/ \\__, |  \\_____|_| |_|\\__,_|\\___/|___/_| |_| |_|_|_| |_|\\___|\\___|_|  \\__,_|_|  \\__|")
-    print("        __/ |                                                                             ")
-    print("       |___/                                                                              ")
-    print("")
-    print("")
-    print("")
-    print("")
-    print("________________________________________________________________________________________________________________________________________________")
-    print("|:‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾:|")
-    print("|:   Wanna support me?                                                                                                                        :|")
-    print("|:                                                                                                                                            :|")
-    print("|:   SUPPORT THE SHEEPIT DEVS!!!! -                                                 https://www.sheepit-renderfarm.com/donation               :|")
-    print("|:                                                                                                                                            :|")
-    print("|:   Follow me on Instagram -                                                       https://www.instagram.com/saad_abdullah999666/            :|")
-    print("|:   Reddit account -                                                               https://reddit.com/user/INGENAREL                         :|")
-    print("|:   Discord -                                                                      ingenarel#2846                                            :|")
-    print("|:   My youtube channel -                                                           https://www.youtube.com/channel/UC90Tar8Bpx3Q8UqpM8qxWZw  :|")
-    print("|:   Sponsor me on SheepIt -                                                        https://www.sheepit-renderfarm.com/user/ingenarel/profile :|")
-    print("|:   Here's my public renderkey if you wanna connect a device to my account -       XQVDMUjdOKt7LBldxjuF0YERqLoGnExbeh8yUrce                  :|")
-    print("|:                                                                                                                                            :|")
-    print("|:____________________________________________________________________________________________________________________________________________:|")
-    print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
-    print("")
-    print("________________________________________________________________________________________________________________________________________________________________________________")
-    print("|:‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾:|")
-    print("|: ██████╗ ██╗███████╗ ██████╗██╗      █████╗ ██╗███╗   ███╗███████╗██████╗ ██╗██╗██╗                                                                                         :|")
-    print("|: ██╔══██╗██║██╔════╝██╔════╝██║     ██╔══██╗██║████╗ ████║██╔════╝██╔══██╗██║██║██║                                                                                         :|")
-    print("|: ██║  ██║██║███████╗██║     ██║     ███████║██║██╔████╔██║█████╗  ██████╔╝██║██║██║                                                                                         :|")
-    print("|: ██║  ██║██║╚════██║██║     ██║     ██╔══██║██║██║╚██╔╝██║██╔══╝  ██╔══██╗╚═╝╚═╝╚═╝                                                                                         :|")
-    print("|: ██████╔╝██║███████║╚██████╗███████╗██║  ██║██║██║ ╚═╝ ██║███████╗██║  ██║██╗██╗██╗                                                                                         :|")
-    print("|: ╚═════╝ ╚═╝╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝╚═╝                                                                                         :|")
-    print("|:                                                                                                                                                                            :|")
-    print("|: THIS IS JUST A TEST PROJECT! I'M JUST AN AMATEUR PROGRAMMER! I LEARNED TO CODE THIS WHILE I WAS ALSO CODING IT SO THERE MAY BE STILL SOME BUGS LEFT!!!                     :|")
-    print("|: THIS WILL ONLY WORK FOR FLUID CACHES ONLY! (As far as I know.. Haven't tested with others yet....)                                                                         :|")
-    print("|: This is because I only know how fluid cache files works and i haven't really worked it other simulations yet such as smoke and fire, particle systems...                   :|")
-    print("|: I'll eventually learn them too and then i'll try to upgrade it!                                                                                                            :|")
-    print("|: I'll also try to make a smart cache splitter where it will split the files based on their sizes.                                                                           :|")
-    print("|: But for now you will have to set how many splits you want to make.                                                                                                         :|")
-    print("|: If you have any suggestions and you know how to do it, I'll appreciate the help!                                                                                           :|")
-    print("|: I'm just a member of the SheepIt community i'm not a dev so if i make any errors it's my fault not theirs!                                                                 :|")
-    print("|: I'll also try to post this on github and make it open source too altho i'm kinda a noob at that too. :(                                                                    :|")
-    print("|:                                                                                                                                                                            :|")
-    print("|:____________________________________________________________________________________________________________________________________________________________________________:|")
-    print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
-    print("")
-    print("For the best visual experience, please Maximise the Terminal/Command Prompt.")
-    print("")
-    print("BEFORE YOU START THIS MAKE SURE THAT YOU HAVE DOUBLE THE EMPTY SPACE IN YOUR DRIVE AS YOUR BLEND AND CACHE FILE COMBINED!")
-    print("THAT MEANS IF YOUR BLEND FILE IS 100 mb AND YOUR SIMULATION CACHE FOLDER IS 900 mb, MAKE SURE THAT YOU HAVE ATLEAST 2 gb OF EMPTY SPACE IN YOUR DRIVE!")
+    print("""
+________       ________    ___           ___      _________                ___      _________    ___
+|\\   ____\\     |\\   __  \\  |\\  \\         |\\  \\    |\\___   ___\\             |\\  \\    |\\___   ___\\ |\\  \\
+\\ \\  \\___|_    \\ \\  \\|\\  \\ \\ \\  \\        \\ \\  \\   \\|___ \\  \\_|             \\ \\  \\   \\|___ \\  \\_| \\ \\  \\
+ \\ \\_____  \\    \\ \\   ____\\ \\ \\  \\        \\ \\  \\       \\ \\  \\               \\ \\  \\       \\ \\  \\   \\ \\  \\
+  \\|____|\\  \\    \\ \\  \\___|  \\ \\  \\____    \\ \\  \\       \\ \\  \\               \\ \\  \\       \\ \\  \\   \\ \\__\\
+    ____\\_\\  \\    \\ \\__\\      \\ \\_______\\   \\ \\__\\       \\ \\__\\               \\ \\__\\       \\ \\__\\   \\|__|
+   |\\_________\\    \\|__|       \\|_______|    \\|__|        \\|__|                \\|__|        \\|__|       ___ 
+   \\|_________|                                                                                        |\\__\\
+                                                                                                       \\|__|
+
+    _                           _                              _                    _         _    _
+   / \\         ___  _   _  ___ | |_  ___   _ __ ___       ___ (_) _ __ ___   _   _ | |  __ _ | |_ (_)  ___   _ __
+  / _ \\       / __|| | | |/ __|| __|/ _ \\ | '_ ` _ \\     / __|| || '_ ` _ \\ | | | || | / _` || __|| | / _ \\ | '_ \\
+ / ___ \\     | (__ | |_| |\\__ \\| |_| (_) || | | | | |    \\__ \\| || | | | | || |_| || || (_| || |_ | || (_) || | | |
+/_/   \\_\\     \\___| \\__,_||___/ \\__|\\___/ |_| |_| |_|    |___/|_||_| |_| |_| \\__,_||_| \\__,_| \\__||_| \\___/ |_| |_|
+                   _                            _  _  _    _                    __                   ____   _                        ___  _        _
+  ___  __ _   ___ | |__    ___      ___  _ __  | |(_)| |_ | |_  ___  _ __      / _|  ___   _ __     / ___| | |__    ___   ___  _ __ |_ _|| |_     | |
+ / __|/ _` | / __|| '_ \\  / _ \\    / __|| '_ \\ | || || __|| __|/ _ \\| '__|    | |_  / _ \\ | '__|    \\___ \\ | '_ \\  / _ \\ / _ \\| '_ \\ | | | __|    | |
+| (__| (_| || (__ | | | ||  __/    \\__ \\| |_) || || || |_ | |_|  __/| |       |  _|| (_) || |        ___) || | | ||  __/|  __/| |_) || | | |_     |_|
+ \\___|\\__,_| \\___||_| |_| \\___|    |___/| .__/ |_||_| \\__| \\__|\\___||_|       |_|   \\___/ |_|       |____/ |_| |_| \\___| \\___|| .__/|___| \\__|    (_)
+                                        |_|                                                                                   |_|""")
+
+    print("""
+________________________________________________________________________________________________________________________________________________________________________________
+|:‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾:|
+|: ██████╗ ██╗███████╗ ██████╗██╗      █████╗ ██╗███╗   ███╗███████╗██████╗ ██╗██╗██╗                                                                                         :|
+|: ██╔══██╗██║██╔════╝██╔════╝██║     ██╔══██╗██║████╗ ████║██╔════╝██╔══██╗██║██║██║                                                                                         :|
+|: ██║  ██║██║███████╗██║     ██║     ███████║██║██╔████╔██║█████╗  ██████╔╝██║██║██║                                                                                         :|
+|: ██║  ██║██║╚════██║██║     ██║     ██╔══██║██║██║╚██╔╝██║██╔══╝  ██╔══██╗╚═╝╚═╝╚═╝                                                                                         :|
+|: ██████╔╝██║███████║╚██████╗███████╗██║  ██║██║██║ ╚═╝ ██║███████╗██║  ██║██╗██╗██╗                                                                                         :|
+|: ╚═════╝ ╚═╝╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝╚═╝                                                                                         :|
+|:                                                                                                                                                                            :|
+|: THIS IS JUST A TEST PROJECT! SO THERE MAY BE STILL SOME BUGS LEFT!!!                                                                                                       :|
+|: THIS WILL ONLY WORK FOR FLUID CACHES ONLY! (As far as I know.. Haven't tested with others yet....)                                                                         :|
+|: This is because I only know how fluid cache files works and i haven't really worked it other simulations yet such as smoke and fire, particle systems...                   :|
+|: I'll eventually learn them too and then i'll try to upgrade it!                                                                                                            :|
+|: I'll also try to make a smart cache splitter where it will split the files based on their sizes.                                                                           :|
+|: But for now you will have to set how many splits you want to make.                                                                                                         :|
+|: If you have any suggestions and you know how to do it, I'll appreciate the help!                                                                                           :|
+|: I'm just a member of the SheepIt community i'm not a dev so if i make any errors it's my fault not theirs!                                                                 :|
+|:                                                                                                                                                                            :|
+|:____________________________________________________________________________________________________________________________________________________________________________:|
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+For the best visual experience, please Maximise the Terminal/Command Prompt.
+
+BEFORE YOU START THIS MAKE SURE THAT YOU HAVE DOUBLE THE EMPTY SPACE IN YOUR DRIVE AS YOUR BLEND AND CACHE FILE COMBINED!
+THAT MEANS IF YOUR BLEND FILE IS 100 mb AND YOUR SIMULATION CACHE FOLDER IS 900 mb, MAKE SURE THAT YOU HAVE ATLEAST 2 gb OF EMPTY SPACE IN YOUR DRIVE!""")
     please_enter_your_simulation_folder_name()
     return
 
 #Printing the "please enter your Simulation folder name" text
 def please_enter_your_simulation_folder_name():
 
-    print(" ____   _                                        _")
-    print("|  _ \\ | |  ___   __ _  ___   ___    ___  _ __  | |_  ___  _ __   _   _   ___   _   _  _ __")
-    print("| |_) || | / _ \\ / _` |/ __| / _ \\  / _ \\| '_ \\ | __|/ _ \\| '__| | | | | / _ \\ | | | || '__|")
-    print("|  __/ | ||  __/| (_| |\\__ \\|  __/ |  __/| | | || |_|  __/| |    | |_| || (_) || |_| || |")
-    print("|_|    |_| \\___| \\__,_||___/ \\___|  \\___||_| |_| \\__|\\___||_|     \\__, | \\___/  \\__,_||_|")
-    print("      _                    _         _    _                  __   |___/ _      _")
-    print(" ___ (_) _ __ ___   _   _ | |  __ _ | |_ (_)  ___   _ __    / _|  ___  | |  __| |  ___  _ __   _ __    __ _  _ __ ___    ___")
-    print("/ __|| || '_ ` _ \\ | | | || | / _` || __|| | / _ \\ | '_ \\  | |_  / _ \\ | | / _` | / _ \\| '__| | '_ \\  / _` || '_ ` _ \\  / _ \\")
-    print("\\__ \\| || | | | | || |_| || || (_| || |_ | || (_) || | | | |  _|| (_) || || (_| ||  __/| |    | | | || (_| || | | | | ||  __/")
-    print("|___/|_||_| |_| |_| \\__,_||_| \\__,_| \\__||_| \\___/ |_| |_| |_|   \\___/ |_| \\__,_| \\___||_|    |_| |_| \\__,_||_| |_| |_| \\___|")
+    print(""" ____   _                                        _
+|  _ \\ | |  ___   __ _  ___   ___    ___  _ __  | |_  ___  _ __   _   _   ___   _   _  _ __
+| |_) || | / _ \\ / _` |/ __| / _ \\  / _ \\| '_ \\ | __|/ _ \\| '__| | | | | / _ \\ | | | || '__|
+|  __/ | ||  __/| (_| |\\__ \\|  __/ |  __/| | | || |_|  __/| |    | |_| || (_) || |_| || |
+|_|    |_| \\___| \\__,_||___/ \\___|  \\___||_| |_| \\__|\\___||_|     \\__, | \\___/  \\__,_||_|
+      _                    _         _    _                  __   |___/ _      _
+ ___ (_) _ __ ___   _   _ | |  __ _ | |_ (_)  ___   _ __    / _|  ___  | |  __| |  ___  _ __   _ __    __ _  _ __ ___    ___
+/ __|| || '_ ` _ \\ | | | || | / _` || __|| | / _ \\ | '_ \\  | |_  / _ \\ | | / _` | / _ \\| '__| | '_ \\  / _` || '_ ` _ \\  / _ \\
+\\__ \\| || | | | | || |_| || || (_| || |_ | || (_) || | | | |  _|| (_) || || (_| ||  __/| |    | | | || (_| || | | | | ||  __/
+|___/|_||_| |_| |_| \\__,_||_| \\__,_| \\__||_| \\___/ |_| |_| |_|   \\___/ |_| \\__,_| \\___||_|    |_| |_| \\__,_||_| |_| |_| \\___|""")
+    main_func()
     return
 
 #Successfuly splitted it.
 def success_msg():
-    print(" ____    _   _    ____    ____   _____   ____    ____    _   _   _ ")
-    print("/ ___|  | | | |  / ___|  / ___| | ____| / ___|  / ___|  | | | | | |")
-    print("\\___ \\  | | | | | |     | |     |  _|   \\___ \\  \\___ \\  | | | | | |")
-    print(" ___) | | |_| | | |___  | |___  | |___   ___) |  ___) | |_| |_| |_|")
-    print("|____/   \\___/   \\____|  \\____| |_____| |____/  |____/  (_) (_) (_)")
+    print(""" ____    _   _    ____    ____   _____   ____    ____    _   _   _ 
+/ ___|  | | | |  / ___|  / ___| | ____| / ___|  / ___|  | | | | | |
+\\___ \\  | | | | | |     | |     |  _|   \\___ \\  \\___ \\  | | | | | |
+ ___) | | |_| | | |___  | |___  | |___   ___) |  ___) | |_| |_| |_|
+|____/   \\___/   \\____|  \\____| |_____| |____/  |____/  (_) (_) (_)
+          """)
     return
 
 #Something went wrong while splitting.
 def error_msg():
-    print("        vXFAAAAAAAAAAAAAAAAAAAAAAAAAAOR2r")
-    print("p6HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCBBBBZy")
-    print("         hYDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPw")
-    print("               VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3")
-    print("               fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7")
-    print("                RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL")
-    print("                dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAV")
-    print("                PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                 ")
-    print("               sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3                ")
-    print("               kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK                 _   _           __  _  _                        __         _      _")
-    print("                mVVXYZZ36777987ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv               | \\ | |  ___    / _|(_)| |  ___    ___   _ __   / _|  ___  | |  __| |  ___  _ __")
-    print("                                  fRAAAAAAAAAAAAAAAAAAAAXv          wbMAAAAAAAAAAAAAA8              |  \\| | / _ \\  | |_ | || | / _ \\  / _ \\ | '__| | |_  / _ \\ | | / _` | / _ \\| '__|")
-    print("                                     sAAAAAAAAAD0z      tmmz            8AAAAAAAAAAAAA5             | |\\  || (_) | |  _|| || ||  __/ | (_) || |    |  _|| (_) || || (_| ||  __/| |")
-    print("                                       kAAAAAAi        AAAAV      p     BAAAAAAAAAAAAAAh            |_| \\_| \\___/  |_|  |_||_| \\___|  \\___/ |_|    |_|   \\___/ |_| \\__,_| \\___||_|")
-    print("                                        eAAAAAABe                   s7EAAAAAAAAAAAAAAAAAb             __                           _   _              _    _             _")
-    print("          qCAAAAABX6ffbdkmjchiaht       gAAAAAAAAA     qe94567992AAAAAAAAAAAAAAAAAAAAAAAAh           / _|  ___   _   _  _ __    __| | | |__   _   _  | |_ | |__    __ _ | |_")
-    print("            0AAAAAAAAAAAAAAAAAAA0       nAAAAAAAAAx   XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA          | |_  / _ \\ | | | || '_ \\  / _` | | '_ \\ | | | | | __|| '_ \\  / _` || __|")
-    print("               kcVKHAAAAAAAAAA2x         AAAAAAAAA9   hDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAV         |  _|| (_) || |_| || | | || (_| | | |_) || |_| | | |_ | | | || (_| || |_")
-    print("                    kAAAAAAAAR           3AAAAAAAAX   t9UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA         |_|   \\___/  \\__,_||_| |_| \\__,_| |_.__/  \\__, |  \\__||_| |_| \\__,_| \\__|")
-    print("                      6AAAAAZ            lAAAAAAAAA       FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                                                   |___/")
-    print("                       8AAAZ             gAAAAAAAAAAf     fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF                                              ____  _                  _")
-    print("                                         AAAAAAAAAAAAAr    hAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAo          _ __    __ _  _ __ ___    ___      / ___|| |__    ___   ___ | | __  _   _   ___   _   _  _ __")
-    print("                                         TAAAAAAAAAAAAa     zAAAAAAAAAAAAAAAAAAAAAAAAAAAAA          | '_ \\  / _` || '_ ` _ \\  / _ \\    | |    | '_ \\  / _ \\ / __|| |/ / | | | | / _ \\ | | | || '__|")
-    print("                                           kEAAAAAAAAO      ZAAAAAAAAAAAANkQAAAAAAAAAAAAAh          | | | || (_| || | | | | ||  __/ _  | |___ | | | ||  __/| (__ |   <  | |_| || (_) || |_| || |   ")
-    print("                                              wh6WRF3     oNAAAAAAAAAAAAA9   4AAAAAAAAAAE           |_| |_| \\__,_||_| |_| |_| \\___|(_)  \\____||_| |_| \\___| \\___||_|\\_\\  \\__, | \\___/  \\__,_||_|")
-    print("                                                       vAAAAAAAAAAAAAAAAAA6   oAAAAAAAAE                               _  _  _                                      _    |___/                     ")
-    print("                                                      BAAAAAAAAAAAAAAAAAAAAP    2AAAAAAy             ___  _ __    ___ | || |(_) _ __    __ _    __ _   __ _   __ _ (_) _ __                        ")
-    print("                                            aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa   AAAAA7             / __|| '_ \\  / _ \\| || || || '_ \\  / _` |  / _` | / _` | / _` || || '_ \\                       ")
-    print("                                             8RRNAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9   AAAE              \\__ \\| |_) ||  __/| || || || | | || (_| | | (_| || (_| || (_| || || | | | _                    ")
-    print("                                  kEAA7sy               s9221ZYXWKAAAAAAMUZ45d    AAAl              |___/| .__/  \\___||_||_||_||_| |_| \\__, |  \\__,_| \\__, | \\__,_||_||_| |_|(_)                   ")
-    print("                                 pGAAAAAAAAAAAAGeoz                          qu   AAp                    |_|                           |___/          |___/                                        ")
-    print("                                   vUAAAAAAAAAAAAAAAAAAAAAWefgeeeffffffg5AAAAAAAeHAH")
-    print("                                     2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg")
-    print("                                     XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    print("                                    cDAAAAAOUHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD")
-    print("                                    5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAz")
-    print("                                     WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    print("                                    ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7")
-    print("                                    LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    print("                                    XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD")
-    print("                                     aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAr")
-    print("                                    vTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAd")
-    print("                                      cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    print("                                         oBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAX")
-    print("                                           u7CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY")
-    print("                                               mfKAAAAAAAAAAAAAAAAAAAAAAAAARw")
-    print("                                                   tkeLAAAAAAAAAAAAAAABXw")
+    print("""
+                vXFAAAAAAAAAAAAAAAAAAAAAAAAAAOR2r
+   p6HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCBBBBZy
+         hYDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPw
+               VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3
+               fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7
+                RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL
+                dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAV
+                PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                 
+               sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3                
+               kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK                 _   _           __  _  _                        __         _      _
+                mVVXYZZ36777987ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv               | \\ | |  ___    / _|(_)| |  ___    ___   _ __   / _|  ___  | |  __| |  ___  _ __
+                                  fRAAAAAAAAAAAAAAAAAAAAXv          wbMAAAAAAAAAAAAAA8              |  \\| | / _ \\  | |_ | || | / _ \\  / _ \\ | '__| | |_  / _ \\ | | / _` | / _ \\| '__|
+                                     sAAAAAAAAAD0z      tmmz            8AAAAAAAAAAAAA5             | |\\  || (_) | |  _|| || ||  __/ | (_) || |    |  _|| (_) || || (_| ||  __/| |
+                                       kAAAAAAi        AAAAV      p     BAAAAAAAAAAAAAAh            |_| \\_| \\___/  |_|  |_||_| \\___|  \\___/ |_|    |_|   \\___/ |_| \\__,_| \\___||_|
+                                        eAAAAAABe                   s7EAAAAAAAAAAAAAAAAAb             __                           _   _              _    _             _
+          qCAAAAABX6ffbdkmjchiaht       gAAAAAAAAA     qe94567992AAAAAAAAAAAAAAAAAAAAAAAAh           / _|  ___   _   _  _ __    __| | | |__   _   _  | |_ | |__    __ _ | |_
+            0AAAAAAAAAAAAAAAAAAA0       nAAAAAAAAAx   XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA          | |_  / _ \\ | | | || '_ \\  / _` | | '_ \\ | | | | | __|| '_ \\  / _` || __|
+               kcVKHAAAAAAAAAA2x         AAAAAAAAA9   hDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAV         |  _|| (_) || |_| || | | || (_| | | |_) || |_| | | |_ | | | || (_| || |_
+                    kAAAAAAAAR           3AAAAAAAAX   t9UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA         |_|   \\___/  \\__,_||_| |_| \\__,_| |_.__/  \\__, |  \\__||_| |_| \\__,_| \\__|
+                      6AAAAAZ            lAAAAAAAAA       FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                                                   |___/
+                       8AAAZ             gAAAAAAAAAAf     fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF                                              ____  _                  _
+                                         AAAAAAAAAAAAAr    hAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAo          _ __    __ _  _ __ ___    ___      / ___|| |__    ___   ___ | | __  _   _   ___   _   _  _ __
+                                         TAAAAAAAAAAAAa     zAAAAAAAAAAAAAAAAAAAAAAAAAAAAA          | '_ \\  / _` || '_ ` _ \\  / _ \\    | |    | '_ \\  / _ \\ / __|| |/ / | | | | / _ \\ | | | || '__|
+                                           kEAAAAAAAAO      ZAAAAAAAAAAAANkQAAAAAAAAAAAAAh          | | | || (_| || | | | | ||  __/ _  | |___ | | | ||  __/| (__ |   <  | |_| || (_) || |_| || |   
+                                              wh6WRF3     oNAAAAAAAAAAAAA9   4AAAAAAAAAAE           |_| |_| \\__,_||_| |_| |_| \\___|(_)  \\____||_| |_| \\___| \\___||_|\\_\\  \\__, | \\___/  \\__,_||_|   
+                                                       vAAAAAAAAAAAAAAAAAA6   oAAAAAAAAE                               _  _  _                                      _    |___/                     
+                                                      BAAAAAAAAAAAAAAAAAAAAP    2AAAAAAy             ___  _ __    ___ | || |(_) _ __    __ _    __ _   __ _   __ _ (_) _ __                        
+                                            aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa   AAAAA7             / __|| '_ \\  / _ \\| || || || '_ \\  / _` |  / _` | / _` | / _` || || '_ \\                       
+                                             8RRNAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9   AAAE              \\__ \\| |_) ||  __/| || || || | | || (_| | | (_| || (_| || (_| || || | | | _                    
+                                  kEAA7sy               s9221ZYXWKAAAAAAMUZ45d    AAAl              |___/| .__/  \\___||_||_||_||_| |_| \\__, |  \\__,_| \\__, | \\__,_||_||_| |_|(_)                   
+                                 pGAAAAAAAAAAAAGeoz                          qu   AAp                    |_|                           |___/          |___/                                        
+                                   vUAAAAAAAAAAAAAAAAAAAAAWefgeeeffffffg5AAAAAAAeHAH
+                                     2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg
+                                     XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                                    cDAAAAAOUHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD
+                                    5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAz
+                                     WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                                    ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7
+                                    LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                                    XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD
+                                     aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAr
+                                    vTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAd
+                                      cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                                         oBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAX
+                                           u7CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY
+                                               mfKAAAAAAAAAAAAAAAAAAAAAAAAARw
+                                                   tkeLAAAAAAAAAAAAAAABXw""")
     return
 
 #The splitter is done message
@@ -239,16 +195,42 @@ def end():
 ++++++++@++****#%##**********###@#++++#*+++++##+++#@%#++*##***********#%*#***##%++++++%+++++++++++++
 
 
-Please check your zip files before you upload your project. Because
-I'm dumb
-and
+Please check your zip files before you upload your project.
+Because, 
 even if something works for someone it might not work for others.
 I hope you have a great life""")
+
+def cls_():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def license():
+    print("""
+THE FUCK PAYING! ATTRIBUTE AND DONATE LICENSE (TFPADL)
+
+Version 1.0
+
+By using this piece of software, you agree to the following terms:
+
+1. You are granted the right to use, modify, and redistribute this software under the following conditions:
+    i) Your modified or unmodified version, and/or your own project using this software, must be distributed free of charge.
+    ii) Proper attribution to the original authors must be provided.
+    iii) If you receive donations related to the distribution or use of this software, you must encourage people to also donate to the original authors by providing a link to their website, account, donation links, or project page.
+    iv) You must include the source code of your version, along with a link to the original version.
+
+2. Use of this software is at your own risk. The original authors will not be responsible for any damages or liabilities arising from the use, modification, or distribution of this software.
+
+3. The original authors reserve the right to change the terms of this license at any time without prior notice. You are obligated to comply with the updated terms.
+
+4. Non-compliance with the terms of this license will result in the immediate termination of your rights to use this software and may lead to legal action.
+
+Original Authors:
+Ingenarel
+""")
 
 #Variables for runtime
 class variables:
     #The title Variable
-    local_version="v0.8"
+    local_version="v0.9"
     title=f"Split It! version {local_version}"
     
     #URL Specific stuff
@@ -288,7 +270,7 @@ def list_folders():
             #the input for the folder to copy from.
                 variables.folder_name=input("Please enter your foldername. (CASE SENSITIVE!)")#.lower() #Just in case you change your mind.
                 if variables.folder_name=="cls" or variables.folder_name=="clear":
-                    os.system('cls' if os.name == 'nt' else 'clear')
+                    cls_()
                 else:
                     break
             variables.folder_list=[folder for folder in os.listdir('.') if os.path.isdir(folder)]
@@ -310,16 +292,14 @@ def processing_folders():
             #That while loop is for the file count to not end up at 0
             if variables.file_count==0:
                 while True:
-                    try:
-                        variables.file_count=int(input("Enter the number of files to copy in to each folder: "))
-                    except TypeError:
-                        print(f"Nuh uh! Numbers only!\n")
+
+                    variables.file_count=int(input("Enter the number of files to copy in to each folder: "))
                     
-                    if variables.file_count < 1:
-                        print("Nuh uh! There has to be at least 10 files. ")
-                    
-                    elif variables.file_count > 9:
+                    if variables.file_count >= 1:
                         break
+                    else:
+                        print("Nuh uh! There has to be at least 1 file. ")
+                        continue
             
             #Getting the output directory and source folder.
             variables.output_dir=str(variables.folder_lookup.get(str(variables.current_folder)))
@@ -367,9 +347,46 @@ def processing_folders():
     variables.folder_count=1
     variables.current_folder=1
     variables.output_dir=""
+    blend_copypaste()
+
+def blend_copypaste():
+    while True:
+        # Ask for source file name
+        source_file = input("Enter the name of the blend file that you want to copy (with extension): ")
+
+        if source_file.lower() in ["cls", "clear"]:  # Check for "cls" or "clear" inputs
+            os.system('cls' if os.name == 'nt' else 'clear')
+            continue  # Restart the loop without checking files
+
+        # List files in the current directory (case sensitive)
+        files_in_directory = os.listdir('.')
+
+        # Check if source file exists (case sensitive)
+        if source_file not in files_in_directory:
+            error_msg()
+        
+        else:
+            print("Please wait till I copy and paste the blend file in the correct folders... >.<")
+            break
+
+    # Destination folder name
+    destination_folder = "Destination"
+
+    # Check if destination folder exists, create if not
+    if not os.path.exists(destination_folder):
+        os.makedirs(destination_folder)
+
+    # Iterate over immediate subdirectories in the Destination folder
+    for directory in os.listdir(destination_folder):
+        # Construct destination path
+        destination_path = os.path.join(destination_folder, directory, os.path.basename(source_file))
+        # Copy the file to each subdirectory
+        shutil.copy2(source_file, destination_path)
+
+    print("Blend file copy pasted successfully.")
+
     zip_files()
-
-
+        
 
 #The zipper function (No humans have been harmed at the making.)
 def zip_files():
@@ -417,9 +434,9 @@ The zip files won't be deleted, just the folders and files that were created in 
             print("\nAll split cache folders deleted successfully.\nDon't worry, the zips aren't deleted.")
             break
         
-        elif choice=="cls" or choice=="clear":
-            #Clearing the screen
-            os.system('cls' if os.name == 'nt' else 'clear')
+        elif choice.lower() in ["cls", "clear"]:
+            cls_()
+            continue
         
         else:
             print('Error: Please use euther "y" or "n"')
@@ -427,16 +444,79 @@ The zip files won't be deleted, just the folders and files that were created in 
     success_msg()
     end()
 
-
 def helpsite():
-    print("""
-The main commands:
-    s or start: Starts the program main feature.
-    cls or clear: Clears the screen.
-    ver or version: Checks for updates
-Other commands:
-    exit() or exit or close: Closes the program.
-    """)
+    print("""______________________________________________________________________________________________________________________________________________________
+|:‾‾‾‾‾‾‾‾‾‾‾‾‾|‾‾‾‾‾‾‾‾‾‾‾‾|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾:|
+|:   COMMAND   | ALSO KNOWN |                                                     DESCRIPTION                                                       :|
+|:    NAME     |     AS     |                                                                                                                       :|
+|:=============|============|=======================================================================================================================:|
+|:             |            |   It checks your version. then displayes your current version and the latest version. If the current version is the   :|
+|:             |            |  is updated than the latest stable built release, the says that you're using a version that is newer than the latest  :|
+|:     ver     |   version  |   stable build. And if the current version is older than the latest version, it says that there is a newer version    :|
+|:             |            |                 available. If the version is the same as the latest version, it just tells you that.                  :|
+|:             |            |                                           Should work only on the main menu.                                          :|
+|:=============|============|=======================================================================================================================:|
+|:    cls      |   clear    |                            Clears the screen. Works anywhere where you can put an input.                              :|
+|:=============|============|=======================================================================================================================:|
+|:    exit     | esc, close |                                   Exits the program. Should work only on the main menu.                               :|
+|:=============|============|=======================================================================================================================:|
+|:             |            |    At first it goes to your cache folder. Then it takes the first x ammount files from the config file. x is you,     :|
+|:             |            |   setting how much files it will take per folder. it could be 1/2/3 basically anything. Only an integer tho lol. It   :|
+|:             |            |   pastes those files in a different folder. It will first create a folder called Destination. It will store all the   :|
+|:             |            |  files and folders that are split. Then it creates another folder inside it that's the same name as your simulation   :|
+|:             |            |     cache folder. And then create another folder called config inside it and then paste those files in the config     :|
+|:             |            |                                   folder. To show it visually it's doing this...                                      :|
+|:             |            |                                                                                                                       :|
+|:             |            |                                         Destination                                                                   :|
+|:             |            |                                           -> 1                                                                        :|
+|:             |            |                                             ->simulation folder name                                                  :|
+|:             |            |                                               ->config                                                                :|
+|:             |            |                                                 ->the first x amount of files                                         :|
+|:             |            |                                                                                                                       :|
+|:             |            |   The next step is doing the same thing for all those files. Creates folders called 1, 2, 3 etc basically an unique   :|
+|:             |            |                            folder for each x amount of files so now it looks like this...                             :|
+|:             |            |                                                                                                                       :|
+|:             |            |                                        Destination                                                                    :|
+|:             |            |                                          -> 1                                                                         :|
+|:             |            |                                            -> simulation folder name                                                  :|
+|:             |            |                                              -> config                                                                :|
+|:             |            |                                                -> the first x amount of files                                         :|
+|:             |            |                                          -> 2                                                                         :|
+|:             |            |                                            -> simulation folder name                                                  :|
+|:             |            |                                              -> config                                                                :|
+|:      s      |    start   |                                                -> the second x amount of files                                        :|
+|:             |            |                                                                                                                       :|
+|:             |            |   Then it does the same thing for the data and mesh folder in your simulation directory. then it asks questions it    :|
+|:             |            |       would do with the guiding, noise, and particles folder. either split them too if they have files in them        :|
+|:             |            |    (which i personally didn't have on my projects) or just create those folders that are named guiding, noise, and    :|
+|:             |            |  particles in the split cache directory so it works properly. then it copy pastes your blend file in each sub folder  :|
+|:             |            |                                       in the destination folder. that means...                                        :|
+|:             |            |                                                                                                                       :|
+|:             |            |                                        Destination                                                                    :|
+|:             |            |                                          -> 1                                                                         :|
+|:             |            |                                            -> your blend file                                                         :|
+|:             |            |                                            -> simulation folder name                                                  :|
+|:             |            |                                              -> config                                                                :|
+|:             |            |                                                -> the first x amount of files                                         :|
+|:             |            |                                                                                                                       :|
+|:             |            |                                          -> 2                                                                         :|
+|:             |            |                                            -> your blend file                                                         :|
+|:             |            |                                            -> simulation folder name                                                  :|
+|:             |            |                                              -> config                                                                :|
+|:             |            |                                                -> the second x amount of files                                        :|
+|:             |            |                                                                                                                       :|
+|:             |            |  etc etc then it creates a zip for the 1 folder. then the 2 folder. so on and so on the zip files are created in the  :|
+|:             |            |     Destination folder Then it asks you if it shoudld delete the subfolders that were created while the spliiting     :|
+|:             |            |  happened. You can choose to delete them. If you wish to do so, it will delete those 1, 2, 3 folders. Deleting those  :|
+|:             |            |   folders won't matter because you'll still have the zips.This functions was created so that you don't waste extra    :|
+|:             |            |                                          space. Should work only on the main menu.                                    :|
+|:=============|============|=======================================================================================================================:|
+|:   license   |            |                                   Shows the licnese. Should work only on the main menu.                               :|
+|:_____________|____________|_______________________________________________________________________________________________________________________:|
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+          """)
+    
+    # |::| - this is for the devs so that we can copy paste it every time we need to expand the box
 
 def update_check(**kwargs):
     try:
@@ -528,7 +608,7 @@ Please check your internet connection.""")
         print(f"Latest version: {latest_version}.")
         
         if variables.local_version>latest_version:
-            print("A newer version than expected is there.")
+            print("You're using a version that is newer than the latest stable built.")
     
         elif variables.local_version==latest_version:
             print("You are already using the latest version.")
@@ -564,29 +644,25 @@ Please check your internet connection.""")
                             #There has been an issue downloading
                             else:
                                 print(f"Failed to download: {asset.get('name')}")
-                                input("press enter to go back to simulation folder select")
                                 break
 
                         #Downloading is done 👍
                         print(f"All assets from the latest release have been downloaded to '{download_folder}'.")
-                        input("press enter to go back to simulation folder select")
                         break
 
                     #no assets found
                     else:
                         print("No assets found in the latest release.")
-                        input("press enter to go back to simulation folder select")
                         break
 
                 #Skipped the download
                 elif choice.lower() == "n":
                     print("Skipping download.")
-                    input("press enter to go back to simulation folder select")
                     break
 
                 #Clearing the screen.
                 elif choice.lower() in ["cls", "clear"]:
-                    os.system('cls' if os.name == 'nt' else 'clear')
+                    cls_()
                     continue
 
                 #Choice was invalid...
@@ -598,70 +674,72 @@ Please check your internet connection.""")
         input("press enter to go back to the main menu.")
 
         return
+    
+def credits():
+        print("""______________________________________________________________________________________________________________________________________________________________________
+|:‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾:|
+|:   Ingenarel                                                                                                                                                      :|
+|:                                                                                                                                                                  :|
+|:   Follow me on Instagram -                                                  https://www.instagram.com/saad_abdullah999666/                                       :|
+|:   Reddit account -                                                          https://reddit.com/user/INGENAREL                                                    :|
+|:   Discord -                                                                 ingenarel#2846                                                                       :|
+|:   My youtube channel -                                                      https://www.youtube.com/channel/UC90Tar8Bpx3Q8UqpM8qxWZw?sub_confirmation=1          :|
+|:   Sponsor me on SheepIt -                                                   https://www.sheepit-renderfarm.com/user/ingenarel/profile                            :|
+|:   My github account -                                                       https://github.com/ingenarel                                                         :|
+|:   Here's my public renderkey if you wanna connect a device to my account -  XQVDMUjdOKt7LBldxjuF0YERqLoGnExbeh8yUrce                                             :|
+|:__________________________________________________________________________________________________________________________________________________________________:|
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+          """)
+        
+        print("""______________________________________________________________________________________________________________________________________________________
+|:‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾:|
+|:   Chaosminecraft                                                                                                                                 :|
+|:   His youtube channel -                                                          https://www.youtube.com/@chaosminecraft3399                     :|
+|:   Sponsor him on SheepIt -                                                       https://www.sheepit-renderfarm.com/user/Chaosminecraft/profile  :|
+|:   His github account -                                                           https://github.com/Chaosminecraft                               :|
+|:__________________________________________________________________________________________________________________________________________________:|
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+          """)
+
+    # |::| - this is for the devs so that we can copy paste it every time we need to expand the box
+
 
 #the main function that handles the stuff.
 def main_func():
     while True:
         print("""
-You can type "Ver" or "Version" to check if an update is there.
-You can type "cls" or "clear" to clean the Terminal/Command Prompt.
-Type "s" or "start" to use the splitter.
-type "help" for a more thorough help site.
-""")
+You can type "Ver" to check if an update is there.
+You can type "cls" to clean the Terminal/Command Prompt.
+Type "s" to use the splitter.
+Type "help" for an in depth guide about every command
+Type "c" for credits.        """) 
         
         starting_choice=input("What do you want to do? ").lower()
         
         #starting the main feature.
-        if starting_choice=="s" or starting_choice=="start":
+        if starting_choice in ["s", "start"]:
             list_folders()
             processing_folders()
         
         #Checking the version
-        elif starting_choice=="ver" or starting_choice=="version":
+        elif starting_choice in ["ver", "version"]:
             update_check(url=f"https://api.github.com/repos/{variables.repo_owner}/{variables.repo_name}/releases/latest")
         
-        elif starting_choice=="cls" or starting_choice=="clear":
-            os.system('cls' if os.name == 'nt' else 'clear')
-        
-        elif starting_choice=="settings":
-            handle_settings()
+        elif starting_choice in ["cls", "clear"]:
+            cls_()
         
         #Closing the program
-        elif starting_choice=="exit()" or starting_choice=="exit" or starting_choice=="close":
+        elif starting_choice in ["esc", "exit", "close"]:
             exit()
+        
+        elif starting_choice == "license":
+            license()
 
-class Settings:
-    is_cli=True
-    theme="W.I.P"
-    setting_file={}
-
-def settings_init():
-    Settings.setting_file={
-        "is-cli": Settings.is_cli,
-        "theme": "W.I.P"
-    }
-    with open("config.json", "w") as file:
-        json.dump(Settings.setting_file, file)
-    return
-
-def handle_settings(**kwargs):
-    print(f"\nWork in progress, please wait until next version ^w^")
-    return
-
-def init():
-    while True:
-        try:
-            with open("config.json", "r") as file:
-                Settings.setting_file=json.load(file)
-                break
-        except FileNotFoundError:
-            settings_init()
-    
-    Settings.is_cli=Settings.setting_file.get("is-cli")
-    Settings.theme=Settings.setting_file.get("theme")
-    main_func()
-    
+        elif starting_choice in ["credits", "c"]:
+            credits()
+        
+        elif starting_choice == "help":
+            helpsite()
 
 if __name__=="__main__":
     start(title=variables.title)
-    init()

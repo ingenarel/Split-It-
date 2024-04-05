@@ -9,3 +9,4 @@ logger.py
 temp.py
 *.code-workspace
 config.json
+split_it(Backup).py
