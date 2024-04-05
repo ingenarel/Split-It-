@@ -2,5 +2,9 @@
 SimMake/
 Destination/
 __pycache__/
+build/
+dist/
 fortestingonly.py
 logger.py
+temp.py
+*.code-workspace

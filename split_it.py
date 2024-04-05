@@ -1,5 +1,5 @@
 #Importing Modules
-import ctypes, os, shutil, zipfile, requests
+import ctypes, os, shutil, zipfile, requests, json
 
 #The title Screen with some light Credits sprinkled in.
 def start(**kwargs):
@@ -117,7 +117,6 @@ def please_enter_your_simulation_folder_name():
 / __|| || '_ ` _ \\ | | | || | / _` || __|| | / _ \\ | '_ \\  | |_  / _ \\ | | / _` | / _ \\| '__| | '_ \\  / _` || '_ ` _ \\  / _ \\
 \\__ \\| || | | | | || |_| || || (_| || |_ | || (_) || | | | |  _|| (_) || || (_| ||  __/| |    | | | || (_| || | | | | ||  __/
 |___/|_||_| |_| |_| \\__,_||_| \\__,_| \\__||_| \\___/ |_| |_| |_|   \\___/ |_| \\__,_| \\___||_|    |_| |_| \\__,_||_| |_| |_| \\___|""")
-    main_func()
     return
 
 #Successfuly splitted it.
@@ -286,8 +285,13 @@ class variables:
 def list_folders():
     try:
         while True:
+            while True:
             #the input for the folder to copy from.
-            variables.folder_name=input("Please enter your foldername. (CASE SENSITIVE!)")#.lower() #Just in case you change your mind.
+                variables.folder_name=input("Please enter your foldername. (CASE SENSITIVE!)")#.lower() #Just in case you change your mind.
+                if variables.folder_name=="cls" or variables.folder_name=="clear":
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                else:
+                    break
             variables.folder_list=[folder for folder in os.listdir('.') if os.path.isdir(folder)]
             #print(variables.folder_list) #For debugging if something goes to shit
             if variables.folder_name not in variables.folder_list:
@@ -595,7 +599,7 @@ Please check your internet connection.""")
         input("press enter to go back to the main menu.")
 
         return
-    
+
 #the main function that handles the stuff.
 def main_func():
     while True:
@@ -619,9 +623,44 @@ type "help" for a more thorough help site.""")
         elif starting_choice=="cls" or starting_choice=="clear":
             os.system('cls' if os.name == 'nt' else 'clear')
         
+        elif starting_choice=="Settings":
+            handle_settings()
+        
         #Closing the program
         elif starting_choice=="exit()" or starting_choice=="exit" or starting_choice=="close":
             exit()
 
+class Settings:
+    is_cli=True
+    theme="W.I.P"
+    setting_file={}
+
+def settings_init():
+    Settings.setting_file={
+        "is-cli": Settings.is_cli,
+        "theme": "W.I.P"
+    }
+    with open("config.json", "w") as file:
+        json.dump(Settings.setting_file, file)
+    return
+
+def handle_settings(**kwargs):
+    print("Work in progress, please wait until next version ^w^")
+    return
+
+def init():
+    while True:
+        try:
+            with open("config.json", "r") as file:
+                Settings.setting_file=json.load(file)
+                break
+        except FileNotFoundError:
+            settings_init()
+    
+    Settings.is_cli=Settings.setting_file.get("is-cli")
+    Settings.theme=Settings.setting_file.get("theme")
+    
+
 if __name__=="__main__":
     start(title=variables.title)
+    init()
