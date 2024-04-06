@@ -1,5 +1,7 @@
 #Importing Modules
 import ctypes, os, shutil, zipfile, requests, json
+from tkinter import *
+from threading import Thread
 
 #The Software startup and telling what is needed.
 def start(**kwargs):
@@ -734,14 +736,35 @@ Type "c" for credits.        """)
         elif starting_choice == "help":
             helpsite()
         
-        elif starting_choice=="configs":
+        elif starting_choice == "con" or starting_choice=="configs":
             handle_settings()
             return
+        
+        elif starting_choice=="g" or starting_choice=="gui":
+            gui_thread=Thread(target=main_func_gui)
+            gui_thread.start()
+        
+        else:
+            print(f"No such choice: {starting_choice}")
 
 class Settings:
     is_cli=True
-    theme="W.I.P"
+    skip_startwarning=False
     setting_file={}
+    setting_choice=""
+
+class gui_variables:
+    theme="W.I.P"
+    current_theme={
+        "bg": "#EFEFEF"
+    }
+    settings_window_open=False
+    main_window=""
+
+def main_func_gui():
+    gui_variables.main_window=Tk()
+    gui_variables.main_window.config(bg=gui_variables.current_theme.get("bg"))
+    gui_variables.main_window.mainloop()
 
 def settings_init():
     Settings.setting_file={
@@ -753,18 +776,35 @@ def settings_init():
     return
 
 def handle_settings(**kwargs):
-    print(f"\nWork in progress, please wait until next version ^w^")
-    #return
-    print("Do you wanna run the code in Command Line Interface (CLI) or Graphical(GUI)? ")
-    choice=input("CLI/GUI: ").lower()
-    if choice=="cli":
+    if kwargs["autosetting"]=="fixme":
+        pass# out (Just kidding XD)
+    else:
+        print("Do you wanna run the code in Command Line Interface (CLI) or Graphical(GUI)? ")
+        Settings.setting_choice=input("CLI/GUI: ").lower()
+
+    if Settings.setting_choice=="cli" or kwargs["backtocli"]=="yesplease":
         Settings.is_cli=True
     
-    elif choice=="GUI":
+    elif Settings.setting_choice=="gui":
         print("Info: That mode is currently under developement, do you wanna continue? Y is yes, and N is no.")
         choice2=input("Y/N: ").lower()
         if choice2=="y" or choice2=="yes":
+            Settings.is_cli=True
+        elif choice2=="n" or choice2=="no":
             Settings.is_cli=False
+        elif choice2=="dev":
+            print("Success")
+            Settings.is_cli=True
+            Settings.skip_startwarning=True
+            
+    
+    Settings.setting_file={
+        "is-cli": Settings.is_cli,
+        "theme": gui_variables.theme
+    }
+    with open("config.json", "w") as file:
+        json.dump(Settings.setting_file, file)
+    return
 
 def init():
     while True:
@@ -777,13 +817,20 @@ def init():
 
     while True:
         Settings.is_cli=Settings.setting_file.get("is-cli")
-        Settings.theme=Settings.setting_file.get("theme")
+        gui_variables.theme=Settings.setting_file.get("theme")
         if Settings.is_cli==True:
             main_func()
         elif Settings.is_cli==False:
-            #Oh man chaos, we talked about it, PUT THE FUCKING FUNCTION THERE! (How?) JUST DO IT! "if anyone is concerned, i was just having some fun writing that. ^w^
-            print("That is not ready yet dear user ^w^, Let me fix the current softlock for you >.<")
-            Settings.is_cli=True
+            if Settings.skip_startwarning == False:
+                #Oh man chaos, we talked about it, PUT THE FUCKING FUNCTION THERE! (How?) JUST DO IT! "if anyone is concerned, i was just having some fun writing that. ^w^
+                print("That is not ready yet dear user ^w^, Let me fix the current softlock for you >.<")
+                Settings.is_cli=True
+                handle_settings(autosetting="fixme", backtocli="yesplease")
+            elif Settings.skip_startwarning == True:
+                main_func_gui()
+            
+        
+        
     
 
 if __name__=="__main__":
