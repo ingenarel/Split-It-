@@ -1,3 +1,5 @@
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
 https://github.com/ingenarel/Split-It/assets/145784829/29cb15e3-649b-4b97-b04a-948846fc703d
 
 ```
@@ -26,18 +28,6 @@ https://github.com/ingenarel/Split-It/assets/145784829/29cb15e3-649b-4b97-b04a-9
  \___|\__,_| \___||_| |_| \___|    |___/| .__/ |_||_| \__| \__|\___||_|       |_|   \___/ |_|       |____/ |_| |_| \___| \___|| .__/|___| \__|    (_)
                                         |_|                                                                                   |_|
 
-
- __  __               _            ____
-|  \/  |   __ _    __| |   ___    | __ )   _   _
-| |\/| |  / _` |  / _` |  / _ \   |  _ \  | | | |
-| |  | | | (_| | | (_| | |  __/   | |_) | | |_| |
-|_|  |_|  \__,_|  \__,_|  \___|   |____/   \__, |
-                                           |___/
- ___   _   _    ____   _____   _   _      _      ____    _____   _
-|_ _| | \ | |  / ___| | ____| | \ | |    / \    |  _ \  | ____| | |
- | |  |  \| | | |  _  |  _|   |  \| |   / _ \   | |_) | |  _|   | |
- | |  | |\  | | |_| | | |___  | |\  |  / ___ \  |  _ <  | |___  | |___
-|___| |_| \_|  \____| |_____| |_| \_| /_/   \_\ |_| \_\ |_____| |_____|
 ```
 # Click this youtube video to learn more an get an in-depth guide on how to use it :
 Made this video for version 0.5 tho. I'll update it soon
@@ -161,7 +151,9 @@ etc etc
 then it creates a zip for the 1 folder. then the 2 folder. so on and so on
 the zip files are created in the Destination folder
 
-and then you have the option to delete the splitted folders that was used to create your zips...
-you don't have to do it manually it ask you.
+Then it asks you if it shoudld delete the subfolders that were created while the spliiting happened.
+You can choose to delete them. If you wish to do so, it will delete those 1, 2, 3 folders.
+Deleting those folders won't matter because you'll still have the zips.
+This functions was created so that you don't waste extra space. 
 
 ```
